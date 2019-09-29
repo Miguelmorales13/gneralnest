@@ -51,7 +51,7 @@ export class RolService {
      * @returns create
      */
     async created(newRol: Partial<RolDTO>): Promise<RolEntity> {
-        const rol = await this.repRol.create(newRol);
+        const rol = await this.repRol.create(newRol as any);
         await this.repRol.save(rol);
         return rol;
     }
@@ -73,8 +73,8 @@ export class RolService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repRol.update({ id }, { ...rol });
-        return { ...rolUpdated, ...rol };
+        await this.repRol.update({ id }, { ...rol } as any);
+        return { ...rolUpdated, ...rol } as RolEntity;
     }
 
     /**

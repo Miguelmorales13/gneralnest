@@ -2,6 +2,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import * as uuid from 'uuid/v4';
 
+export const API_URL: string = 'http://192.168.1.70:3000/api';
 export type Uploads = 'images' | 'pdfs' | 'xlsx';
 
 /**
@@ -11,16 +12,16 @@ export type Uploads = 'images' | 'pdfs' | 'xlsx';
  * @returns  config to disk storage
  */
 export const generateStorageMulter = (
-  type: Uploads = 'images',
-  maxSize: number = 3,
+    type: Uploads = 'images',
+    maxSize: number = 3,
 ) => ({
-  storage: diskStorage({
-    destination: `./public/uploads/${type}`,
-    filename: (req, file, cb) => {
-      return cb(null, `${uuid()}${extname(file.originalname)}`);
+    storage: diskStorage({
+        destination: `./public/uploads/${type}`,
+        filename: (req, file, cb) => {
+            return cb(null, `${uuid()}${extname(file.originalname)}`);
+        },
+    }),
+    limits: {
+        fileSize: maxSize * 1024 * 1024,
     },
-  }),
-  limits: {
-    fileSize: maxSize * 1024 * 1024,
-  },
 });

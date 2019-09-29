@@ -17,7 +17,7 @@ export class ConfigService {
      */
     constructor(filePath: string) {
         console.log(filePath);
-        
+
         const config = dotenv.parse(fs.readFileSync(filePath));
         this.envConfig = this.validateInput(config);
     }
@@ -43,6 +43,18 @@ export class ConfigService {
             MULTER_DEST: Joi.string().required(),
             HTTP_TIMEOUT: Joi.number().default(5000),
             HTTP_MAX_REDIRECTS: Joi.number().default(5),
+            EMAIL_TEST: Joi.boolean().required(),
+            EMAIL_HOST: Joi.string(),
+            EMAIL_PORT: Joi.number(),
+            EMAIL_SEGURE: Joi.boolean(),
+            EMAIL_USER: Joi.string(),
+            EMAIL_PASSWORD: Joi.string(),
+            LOGS_WRITE: Joi.boolean(),
+            URL_LOGS: Joi.string().required(),
+            USE_CLOUDINARY: Joi.boolean().required(),
+            CLOUDINARY_NAME: Joi.string(),
+            CLOUDINARY_API_KEY: Joi.string(),
+            CLOUDINARY_API_SECRET: Joi.string(),
         });
 
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(

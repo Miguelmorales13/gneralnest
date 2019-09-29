@@ -13,7 +13,7 @@ export class RolDTO {
     
     @ApiModelProperty({description: 'access assigned to rol' })
     @IsNotEmpty({ message: 'accessos invalidos' })
-    access?: AccessDTO | number;
+    access?: number | AccessDTO;
 }
 
 /**
@@ -35,11 +35,11 @@ export class AccessDTO {
  */
 export class RolAccessDTO {
 
-    @IsNotEmpty({ message: 'accessos de usuarios invalidos' })
     @ApiModelProperty({description: 'module to access'})
+    @IsNotEmpty({ message: 'accessos de usuarios invalidos' })
     users: AccessDTO;
 
-    @IsNotEmpty({ message: 'accessos de roles invalidos' })
     @ApiModelProperty({description: 'module to access'})
+    @IsNotEmpty({ message: 'accessos de roles invalidos' })
     rols: AccessDTO;
 }

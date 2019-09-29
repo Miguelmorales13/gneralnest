@@ -8,7 +8,7 @@ import {
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { METHODS, writeLogger } from '../personal-logger/PersonaLogger';
+import { LoggerService } from '../helpers/logger/logger.service';
 
 /**
  * Injectable
@@ -21,6 +21,7 @@ export class LoggerInterceptor implements NestInterceptor {
      * @param call$ interceptor
      * @returns intercept call$
      */
+    constructor(private readonly _logger: LoggerService) {}
     intercept(
         context: ExecutionContext,
         call$: CallHandler<any>,
@@ -30,13 +31,31 @@ export class LoggerInterceptor implements NestInterceptor {
             context.getClass().name + '::' + context.getHandler().name;
         const now = Date.now();
         return call$.handle().pipe(
-            tap(() => {
-                Logger.log(writeLogger(req, now, where,'INPUT'), where);
+            tap(async () => {
+                Logger.log(
+                    await this._logger.addLoggerInterceptor(
+                        req,
+                        now,
+                        where,
+                        'REQUEST',
+                        req.body,
+                    ),
+                    where,
+                );
             }),
-            map(data=>{
-                Logger.log(writeLogger(req, now, where,'OUTPUT',data), where);
-                return data
-            })
+            map(async (data) => {
+                Logger.log(
+                    await this._logger.addLoggerInterceptor(
+                        req,
+                        now,
+                        where,
+                        'RESPONSE',
+                        data,
+                    ),
+                    where,
+                );
+                return data;
+            }),
         );
     }
 }

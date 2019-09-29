@@ -7,22 +7,24 @@ import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './auth.strategy';
+import { HelpersModule } from '../../helpers/helpers.module';
 
 @Module({
-  imports: [
-    UserModule,
-    ConfigModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (_config: ConfigService) => ({
-        secret: _config.get('TOKEN_SECRET'),
-        signOptions: { expiresIn: '7d' },
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  providers: [AuthService, JwtStrategy],
-  controllers: [AuthController],
+    imports: [
+        UserModule,
+        ConfigModule,
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async (_config: ConfigService) => ({
+                secret: _config.get('TOKEN_SECRET'),
+                signOptions: { expiresIn: '7d' },
+            }),
+            inject: [ConfigService],
+        }),
+        HelpersModule,
+    ],
+    providers: [AuthService, JwtStrategy],
+    controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

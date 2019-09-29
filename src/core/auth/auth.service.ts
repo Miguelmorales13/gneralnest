@@ -8,6 +8,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { AuthDTO } from './auth.dto';
+import { API_URL } from '../../config/constants';
+import { ResetPassowordDTO } from './resetPassword.dto';
+import { EmailsService } from '../../helpers/emails/emails.service';
 
 /**
  * Injectable
@@ -18,6 +21,7 @@ export class AuthService {
     constructor(
         private readonly _users: UserService,
         private readonly _jwt: JwtService,
+        private readonly _email: EmailsService,
     ) {}
 
     async validateUser({ user }: any) {
@@ -35,7 +39,27 @@ export class AuthService {
                 HttpStatus.UNAUTHORIZED,
             );
         }
-        const token = await this._jwt.sign({ user });
+        const token = await this._jwt.sign({
+            data: user,
+            iss: API_URL + '/auth/login',
+        });
         return { token, user };
+    }
+    async resetPassword(payload: Partial<ResetPassowordDTO>) {
+        const user = await this._users.getOneByUser(payload.email);
+        // if (!user) {
+        //     throw new HttpException(
+        //         {
+        //             error: `Usuario no registrado, se envio el correo a ${payload.email}`,
+        //             where: this.service + '::resetPassword',
+        //         },
+        //         HttpStatus.OK,
+        //     );
+        // }
+        return {
+            message: `Usuario no registrado, se envio el correo a ${
+                payload.email
+            }`,
+        };
     }
 }

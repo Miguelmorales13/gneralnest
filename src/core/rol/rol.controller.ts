@@ -17,7 +17,7 @@ import { RolService } from './rol.service';
 /**
  * Controller api rol
  */
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGua   rd('jwt'))
 @Controller('api/rol')
 export class RolController {
     constructor(private readonly _rols: RolService) {}

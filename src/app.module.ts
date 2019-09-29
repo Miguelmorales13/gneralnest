@@ -13,6 +13,9 @@ import { UserModule } from './core/user/user.module';
 import { HttpErrorFilter } from './filters/http-error.filter';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
 import { config } from 'dotenv';
+import { HelpersModule } from './helpers/helpers.module';
+import { ImagesModule } from './core/images/images/images.module';
+import { CategoriesImagesModule } from './core/images/categories-images/categories-images.module';
 
 /**
  * Module
@@ -58,6 +61,9 @@ import { config } from 'dotenv';
         AuthModule,
         RolModule,
         ConfigModule,
+        HelpersModule,
+        ImagesModule,
+        CategoriesImagesModule
     ],
     controllers: [AppController],
     providers: [
