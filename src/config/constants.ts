@@ -2,7 +2,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import * as uuid from 'uuid/v4';
 
-export const API_URL: string = 'http://192.168.1.70:3000/api';
+export const API_URL: string = 'http://192.168.1.77:3000/api';
 export type Uploads = 'images' | 'pdfs' | 'xlsx';
 
 /**

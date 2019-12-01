@@ -20,7 +20,7 @@ import { generateStorageMulter } from '../../config/constants';
  * Controller users
  */
 // @UseGuards(AuthGuard('jwt'))
-@Controller('api/user')
+@Controller('api/users')
 export class UserController {
     constructor(private readonly _users: UserService) {}
 
@@ -38,7 +38,7 @@ export class UserController {
      * @returns  user
      */
     @Get(':id')
-    getOne(@Param('id') id: number) {
+    getOne(@Param('id') id: string) {
         return this._users.getOne(id);
     }
     /**
@@ -69,7 +69,7 @@ export class UserController {
      * @returns  user updated
      */
     @Put(':id')
-    update(@Param('id') id: number, @Body() user: UserDTO) {
+    update(@Param('id') id: string, @Body() user: UserDTO) {
         return this._users.updated(id, user as UserDTO);
     }
 
@@ -79,7 +79,7 @@ export class UserController {
      * @returns
      */
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: string) {
         return this._users.deleted(id);
     }
 }

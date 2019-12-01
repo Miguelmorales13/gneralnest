@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsString, IsBoolean } from 'class-validator';
-import { RolAccess } from '../../entitys/rol.entity';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 /**
@@ -13,7 +12,7 @@ export class RolDTO {
     
     @ApiModelProperty({description: 'access assigned to rol' })
     @IsNotEmpty({ message: 'accessos invalidos' })
-    access?: number | AccessDTO;
+    access?: any;
 }
 
 /**

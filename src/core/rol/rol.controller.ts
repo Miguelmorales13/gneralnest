@@ -18,7 +18,7 @@ import { RolService } from './rol.service';
  * Controller api rol
  */
 // @UseGuards(AuthGua   rd('jwt'))
-@Controller('api/rol')
+@Controller('api/rols')
 export class RolController {
     constructor(private readonly _rols: RolService) {}
 
@@ -27,7 +27,7 @@ export class RolController {
         return this._rols.getAll();
     }
     @Get(':id')
-    getOne(@Param('id') id: number) {
+    getOne(@Param('id') id: string) {
         return this._rols.getOne(id);
     }
     @Post()
@@ -35,12 +35,12 @@ export class RolController {
         return this._rols.created(rol);
     }
     @Put(':id')
-    update(@Param('id') id: number, @Body() rol: RolDTO) {
+    update(@Param('id') id: string, @Body() rol: RolDTO) {
         return this._rols.updated(id, rol);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: string) {
         return this._rols.deleted(id);
     }
 }

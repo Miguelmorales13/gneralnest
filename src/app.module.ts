@@ -1,7 +1,7 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -23,23 +23,13 @@ import { CategoriesImagesModule } from './core/images/categories-images/categori
 @Module({
     imports: [
         // Typeorm  config async
-        TypeOrmModule.forRootAsync({
+        MongooseModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (_config: ConfigService) =>
-                ({
-                    type: _config.get('TYPEORM_TYPE'),
-                    host: _config.get('TYPEORM_HOST'),
-                    port: _config.get('TYPEORM_PORT'),
-                    username: _config.get('TYPEORM_USERNAME'),
-                    password: _config.get('TYPEORM_PASSWORD'),
-                    database: _config.get('TYPEORM_DATABASE'),
-                    entities: [__dirname + '/entitys/*.entity{.ts,.js}'],
-                    synchronize: _config.get('TYPEORM_SYNCRHONIZE'),
-                    logging: ['error'],
-                    logger: 'file' // logger to error  database,
-                } as TypeOrmModuleOptions),
+            useFactory: async (configService: ConfigService) => ({
+              uri: configService.get('MONGODB_URI'),
+            }),
             inject: [ConfigService],
-        }),
+          }),
         // multer config async for upload files
         MulterModule.registerAsync({
             imports: [ConfigModule],

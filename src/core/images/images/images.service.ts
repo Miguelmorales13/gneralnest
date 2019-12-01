@@ -1,10 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ImageEntity } from '../../../entitys/Image.entity';
-import { Repository } from 'typeorm';
+import {  IImage } from './Image.entity';
 import { ImageDTO } from './image.dto';
-import { CloudinaryService } from '../../../helpers/cloudinary/cloudinary.service';
-import { unlinkSync } from 'fs';
+// import { unlinkSync } from 'fs';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class ImagesService {
     private service: string = 'ImageService';
@@ -13,32 +12,24 @@ export class ImagesService {
      * @param repImage
      */
     constructor(
-        @InjectRepository(ImageEntity)
-        private readonly repImage: Repository<ImageEntity>,
-        private readonly _cloudinary: CloudinaryService,
+        @InjectModel("Images") private readonly repImage: Model<IImage>,
     ) {}
 
     /**
      * Gets all images
-     * @returns {Promise<ImageEntity[]>} images un database
+     * @returns {Promise<IImage[]>} images un database
      */
-    async getAll(): Promise<ImageEntity[]> {
-        return await this.repImage.find({
-            where: { deletedAt: null },
-            relations: ['category'],
-        });
+    async getAll(): Promise<IImage[]> {
+        return await this.repImage.find({ });
     }
 
     /**
      * Gets one image
      * @param {number} id  key  to image serched
-     * @returns {Promise<ImageEntity>} image serched
+     * @returns {Promise<IImage>} image serched
      */
-    async getOne(id: number): Promise<ImageEntity> {
-        const image = await this.repImage.findOne(
-            { id, deletedAt: null },
-            { relations: ['category'] },
-        );
+    async getOne(_id: string): Promise<IImage> {
+        const image = await this.repImage.findOne({_id, } );
         if (!image) {
             throw new HttpException(
                 {
@@ -53,31 +44,14 @@ export class ImagesService {
     /**
      * Creates image service
      * @param {ImageDTO} newImage data to create new image
-     * @returns  { Promise<ImageEntity>} image created
+     * @returns  { Promise<IImage>} image created
      */
-    async created(newImage: Partial<ImageDTO>): Promise<ImageEntity> {
-        const file = await this._cloudinary.uploadImage(newImage.url);
+    async created(newImage: Partial<ImageDTO>): Promise<IImage> {
 
-        if (!file) {
-            throw new HttpException(
-                {
-                    error: 'No se pudo subir la imagen',
-                    where: this.service + '::created',
-                },
-                HttpStatus.SERVICE_UNAVAILABLE,
-            );
-        }
-        await unlinkSync(newImage.url);
         const image = await this.repImage.create({
             ...newImage,
-            public_id: file.public_id,
-            url: file.secure_url,
-        } as ImageEntity);
-        await this.repImage.save(image);
-        return await this.repImage.findOne({
-            where: { id: image.id },
-            relations: ['category'],
-        });
+        } as IImage);
+        return image;
     }
 
     /**
@@ -86,11 +60,8 @@ export class ImagesService {
      * @param  {ImageDTO} image new data for image updated
      * @returns {Promise<ImageDTO[]>} image updated
      */
-    async updated(id: number, image: Partial<ImageDTO>): Promise<ImageEntity> {
-        const imageUpdated = await this.repImage.findOne(
-            { id },
-            { relations: ['category'] },
-        );
+    async updated(_id: string, image: Partial<ImageDTO>): Promise<IImage> {
+        const imageUpdated = await this.repImage.findOne( { _id,deletedAt:null } );
         if (!imageUpdated) {
             throw new HttpException(
                 {
@@ -100,8 +71,8 @@ export class ImagesService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repImage.update({ id }, { ...image } as ImageEntity);
-        return { ...imageUpdated, ...image } as ImageEntity;
+        await this.repImage.update({ _id }, { ...image } as IImage);
+        return { ...imageUpdated, ...image } as IImage;
     }
 
     /**
@@ -109,11 +80,8 @@ export class ImagesService {
      * @param {number}  id key image to deleted
      * @returns {Promise<{deleted:boolean}>} status deleted image
      */
-    async deleted(id: number): Promise<{ deleted: boolean }> {
-        const image = await this.repImage.findOne(
-            { id },
-            { relations: ['category'] },
-        );
+    async deleted(_id: string): Promise<{ deleted: boolean }> {
+        const image = await this.repImage.findOne( { _id,deletedAt:null } );
         if (!image) {
             throw new HttpException(
                 {
@@ -123,7 +91,7 @@ export class ImagesService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repImage.update({ id }, { deletedAt: new Date() });
+        await image.update( { deletedAt: new Date() });
         return { deleted: true };
     }
 }

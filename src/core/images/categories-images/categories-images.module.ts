@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { CategoriesImagesEntity } from '../../../entitys/GategoriesImages.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import {  CategoriesImages } from './GategoriesImages.entity';
 import { CategoriesImagesService } from './categories-images.service';
 import { CategoriesController } from './categories-images.controller';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CategoriesImagesEntity])],
+    imports: [MongooseModule.forFeature([{name:'CategoriesImages',schema:CategoriesImages}])],
     providers: [CategoriesImagesService],
     controllers: [CategoriesController],
     exports: [CategoriesImagesService],

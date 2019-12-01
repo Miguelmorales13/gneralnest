@@ -3,7 +3,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as compression from 'compression';
 import { ValidatorPipe } from './pipes/validator.pipe';
-import { config } from 'dotenv';
 async function bootstrap() {
     
     const app = await NestFactory.create(AppModule, {
@@ -22,7 +21,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
     app.useGlobalPipes(new ValidatorPipe());
-    await app.listen(3000, '192.168.1.70');
-    console.log('listen in port http://192.168.1.70:3000');
+    await app.listen(3000, '192.168.1.77');
+    console.log('listen in port http://192.168.1.77:3000');
 }
 bootstrap();

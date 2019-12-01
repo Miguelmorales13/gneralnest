@@ -28,7 +28,7 @@ export class CategoriesController {
      * @returns  categoryImage
      */
     @Get(':id')
-    getOne(@Param('id') id: number) {
+    getOne(@Param('id') id: string) {
         return this._categoryImages.getOne(id);
     }
     /**
@@ -47,7 +47,7 @@ export class CategoriesController {
      * @returns  categoryImage updated
      */
     @Put(':id')
-    update(@Param('id') id: number, @Body() categoryImage: CategoryImagesDTO) {
+    update(@Param('id') id: string, @Body() categoryImage: CategoryImagesDTO) {
         return this._categoryImages.updated(
             id,
             categoryImage as CategoryImagesDTO,
@@ -60,7 +60,7 @@ export class CategoriesController {
      * @returns
      */
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: string) {
         return this._categoryImages.deleted(id);
     }
 }

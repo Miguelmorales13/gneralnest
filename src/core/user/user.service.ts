@@ -2,7 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDTO } from './user.dto';
-import { UserEntity } from '../../entitys/user.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IUser } from './user.entity';
 
 /**
  * Injectable
@@ -16,31 +18,25 @@ export class UserService {
      * @param repUser
      */
     constructor(
-        @InjectRepository(UserEntity)
-        private readonly repUser: Repository<UserEntity>,
+        @InjectModel("Users")
+        private readonly repUser: Model<IUser>,
     ) {}
 
     /**
      * Gets all users
-     * @returns {Promise<UserEntity[]>} users un database
+     * @returns {Promise<IUser[]>} users un database
      */
-    async getAll(): Promise<UserEntity[]> {
-        return await this.repUser.find({
-            where: { deletedAt: null },
-            relations: ['rol'],
-        });
+    async getAll(): Promise<IUser[]> {
+        return await this.repUser.find({},"email firtsLogin _id name lastname user active createdAt updatedAt").populate("_rol");
     }
 
     /**
      * Gets one user
      * @param {number} id  key  to user serched
-     * @returns {Promise<UserEntity>} user serched
+     * @returns {Promise<IUser>} user serched
      */
-    async getOne(id: number): Promise<UserEntity> {
-        const user = await this.repUser.findOne(
-            { id, deletedAt: null },
-            { relations: ['rol'] },
-        );
+    async getOne(_id: string): Promise<IUser> {
+        const user = await this.repUser.findOne( { _id, deletedAt: null },"email firtsLogin _id name lastname user active createdAt" ).populate("_rol")
         if (!user) {
             throw new HttpException(
                 {
@@ -58,28 +54,19 @@ export class UserService {
      * @param user user
      * @returns one by user and password
      */
-    async getOneByUser(user: string): Promise<UserEntity> {
-        const userFinded = await this.repUser.findOne({
-            where: `user = '${user}' OR email = '${user}'`,
-            relations: ['rol'],
-        });
+    async getOneByUser(user: string): Promise<IUser> {
+        const userFinded = await this.repUser.findOne({ $and:[{}], $or:[{user},{email:user}]}).populate("_rol");
         return userFinded;
     }
 
     /**
      * Creates user service
      * @param {UserDTO} newUser data to create new user
-     * @returns  { Promise<UserEntity>} user created
+     * @returns  { Promise<IUser>} user created
      */
-    async created(newUser: Partial<UserDTO>): Promise<UserEntity> {
-        const user = await this.repUser.create(newUser as UserEntity);
-        await this.repUser.save(user);
-        return await this.repUser.findOne({
-            where: {
-                id: user.id,
-            },
-            relations: ['rol'],
-        });
+    async created(newUser: Partial<UserDTO>): Promise<IUser> {
+        const user = await this.repUser.create(newUser as IUser);
+        return user
     }
 
     /**
@@ -88,11 +75,8 @@ export class UserService {
      * @param  {UserDTO} user new data for user updated
      * @returns {Promise<UserDTO[]>} user updated
      */
-    async updated(id: number, user: Partial<UserDTO>): Promise<UserEntity> {
-        const userUpdated = await this.repUser.findOne(
-            { id },
-            { relations: ['rol'] },
-        );
+    async updated(_id: string, user: Partial<UserDTO>): Promise<IUser> {
+        const userUpdated = await this.repUser.findOne({ _id, });
         if (!userUpdated) {
             throw new HttpException(
                 {
@@ -102,8 +86,8 @@ export class UserService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repUser.update({ id }, { ...user }as UserEntity);
-        return { ...userUpdated, ...user } as UserEntity;
+        await userUpdated.update( { ...user }).populate("_rol");
+        return { ...userUpdated, ...user } as IUser;
     }
 
     /**
@@ -111,8 +95,8 @@ export class UserService {
      * @param {number}  id key user to deleted
      * @returns {Promise<{deleted:boolean}>} status deleted user
      */
-    async deleted(id: number): Promise<{ deleted: boolean }> {
-        const user = await this.repUser.findOne({ id }, { relations: ['rol'] });
+    async deleted(_id: string): Promise<{ deleted: boolean }> {
+        const user = await this.repUser.findOne({ _id, });
         if (!user) {
             throw new HttpException(
                 {
@@ -122,7 +106,7 @@ export class UserService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repUser.update({ id }, { deletedAt: new Date() });
+        await user.update( { deletedAt: new Date() });
         return { deleted: true };
     }
 }

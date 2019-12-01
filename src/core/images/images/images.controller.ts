@@ -32,7 +32,7 @@ export class ImagesController {
      * @returns  image
      */
     @Get(':id')
-    getOne(@Param('id') id: number) {
+    getOne(@Param('id') id: string) {
         return this._images.getOne(id);
     }
     /**
@@ -69,7 +69,7 @@ export class ImagesController {
      * @returns  image updated
      */
     @Put(':id')
-    update(@Param('id') id: number, @Body() image: ImageDTO) {
+    update(@Param('id') id: string, @Body() image: ImageDTO) {
         return this._images.updated(id, image as ImageDTO);
     }
 
@@ -79,7 +79,7 @@ export class ImagesController {
      * @returns
      */
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: string) {
         return this._images.deleted(id);
     }
 }

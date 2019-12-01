@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ImagesController } from './images.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ImageEntity } from '../../../entitys/Image.entity';
+import {  Image } from './Image.entity';
 import { HelpersModule } from '../../../helpers/helpers.module';
 import { ImagesService } from './images.service';
+import { MongooseModule } from '@nestjs/mongoose';
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ImageEntity]),
+        MongooseModule.forFeature([{name:'Images',schema:Image}]),
         HelpersModule,
     ],
     providers: [ ImagesService],

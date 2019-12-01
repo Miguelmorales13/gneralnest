@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { RolEntity } from '../../entitys/rol.entity';
+import {  IRol } from './rol.entity';
 import { RolDTO } from './rol.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 /**
  * Injectable Rol Service
@@ -15,16 +15,16 @@ export class RolService {
      * @param repRol
      */
     constructor(
-        @InjectRepository(RolEntity)
-        private readonly repRol: Repository<RolEntity>,
+        @InjectModel("Rols")
+        private readonly repRol: Model<IRol>,
     ) {}
 
     /**
      * Gets all
      * @returns all
      */
-    async getAll(): Promise<RolEntity[]> {
-        return await this.repRol.find({ where: { deletedAt: null } });
+    async getAll(): Promise<IRol[]> {
+        return await this.repRol.find({  deletedAt: null });
     }
 
     /**
@@ -32,8 +32,8 @@ export class RolService {
      * @param id
      * @returns one
      */
-    async getOne(id: number): Promise<RolEntity> {
-        const rol = await this.repRol.findOne({ id, deletedAt: null });
+    async getOne(_id: string): Promise<IRol> {
+        const rol = await this.repRol.findOne({ _id, deletedAt: null });
         if (!rol)
             throw new HttpException(
                 {
@@ -50,10 +50,10 @@ export class RolService {
      * @param newRol
      * @returns create
      */
-    async created(newRol: Partial<RolDTO>): Promise<RolEntity> {
-        const rol = await this.repRol.create(newRol as any);
-        await this.repRol.save(rol);
+    async created(newRol: Partial<RolDTO>): Promise<IRol> {
+        const rol = await this.repRol.create(newRol);
         return rol;
+        
     }
 
     /**
@@ -62,8 +62,8 @@ export class RolService {
      * @param rol
      * @returns updated
      */
-    async updated(id: number, rol: Partial<RolDTO>): Promise<RolEntity> {
-        const rolUpdated = await this.repRol.findOne({ id });
+    async updated(_id: string, rol: Partial<RolDTO>): Promise<IRol> {
+        const rolUpdated = await this.repRol.findOne({ _id });
         if (!rolUpdated) {
             throw new HttpException(
                 {
@@ -73,8 +73,8 @@ export class RolService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repRol.update({ id }, { ...rol } as any);
-        return { ...rolUpdated, ...rol } as RolEntity;
+        await rolUpdated.update( { ...rol })
+        return { ...rolUpdated, ...rol } as IRol;
     }
 
     /**
@@ -82,8 +82,8 @@ export class RolService {
      * @param id
      * @returns delete
      */
-    async deleted(id: number): Promise<{ deleted: boolean }> {
-        const rol = await this.repRol.findOne({ id });
+    async deleted(_id: string): Promise<{ deleted: boolean }> {
+        const rol = await this.repRol.findOne({ _id });
         if (!rol)
             throw new HttpException(
                 {
@@ -92,7 +92,7 @@ export class RolService {
                 },
                 HttpStatus.NOT_FOUND,
             );
-        await this.repRol.update({ id }, { deletedAt: new Date() });
+        await rol.update({ deletedAt: new Date() });
         return { deleted: true };
     }
 }

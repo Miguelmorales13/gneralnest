@@ -1,8 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { CategoriesImagesEntity } from '../../../entitys/GategoriesImages.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { CategoriesImages, ICategoriesImages } from './GategoriesImages.entity';
 import { Repository } from 'typeorm';
 import { CategoryImagesDTO } from './category-images.dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class CategoriesImagesService {
@@ -12,18 +13,15 @@ export class CategoriesImagesService {
      * @param repCategoriesImages
      */
     constructor(
-        @InjectRepository(CategoriesImagesEntity)
-        private repCategoriesImages: Repository<CategoriesImagesEntity>,
+        @InjectModel("CategoriesImages") private readonly repCategoriesImages: Model<ICategoriesImages>,
     ) {}
 
     /**
      * Gets all categorys
      * @returns {Promise<CategoriesImagesEntity[]>} categorys un database
      */
-    async getAll(): Promise<CategoriesImagesEntity[]> {
-        return await this.repCategoriesImages.find({
-            where: { deletedAt: null },
-        });
+    async getAll(): Promise<ICategoriesImages[]> {
+        return await this.repCategoriesImages.find( { deletedAt: null });
     }
 
     /**
@@ -31,15 +29,14 @@ export class CategoriesImagesService {
      * @param {number} id  key  to category serched
      * @returns {Promise<CategoriesImagesEntity>} category serched
      */
-    async getOne(id: number): Promise<CategoriesImagesEntity> {
+    async getOne(_id: string): Promise<ICategoriesImages> {
         const category = await this.repCategoriesImages.findOne({
-            id,
-            deletedAt: null,
+            _id
         });
         if (!category) {
             throw new HttpException(
                 {
-                    error: 'No se encontro la categoryn',
+                    error: 'No se encontro la categoria',
                     where: this.service + '::getOne',
                 },
                 HttpStatus.NOT_FOUND,
@@ -54,14 +51,9 @@ export class CategoriesImagesService {
      */
     async created(
         newCategoriesImages: Partial<CategoryImagesDTO>,
-    ): Promise<CategoriesImagesEntity> {
-        const category = await this.repCategoriesImages.create(
-            newCategoriesImages as CategoriesImagesEntity,
-        );
-        await this.repCategoriesImages.save(category);
-        return await this.repCategoriesImages.findOne({
-            where: { id: category.id },
-        });
+    ): Promise<ICategoriesImages> {
+        const category = await this.repCategoriesImages.create( newCategoriesImages );
+        return category
     }
 
     /**
@@ -71,23 +63,23 @@ export class CategoriesImagesService {
      * @returns {Promise<CategoryImagesDTO[]>} category updated
      */
     async updated(
-        id: number,
+        _id: string,
         category: Partial<CategoryImagesDTO>,
-    ): Promise<CategoriesImagesEntity> {
-        const categoryUpdated = await this.repCategoriesImages.findOne(id);
+    ): Promise<ICategoriesImages> {
+        const categoryUpdated = await this.repCategoriesImages.findOne({_id,deletedAt:null});
         if (!categoryUpdated) {
             throw new HttpException(
                 {
-                    error: 'No se encontro la categoryn',
+                    error: 'No se encontro la categoria',
                     where: this.service + '::updated',
                 },
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repCategoriesImages.update({ id }, {
+        await this.repCategoriesImages.updateOne({ _id }, {
             ...category,
-        } as CategoriesImagesEntity);
-        return { ...categoryUpdated, ...category } as CategoriesImagesEntity;
+        } as ICategoriesImages);
+        return { ...categoryUpdated, ...category } as ICategoriesImages;
     }
 
     /**
@@ -95,8 +87,8 @@ export class CategoriesImagesService {
      * @param {number}  id key category to deleted
      * @returns {Promise<{deleted:boolean}>} status deleted category
      */
-    async deleted(id: number): Promise<{ deleted: boolean }> {
-        const category = await this.repCategoriesImages.findOne({ id });
+    async deleted(_id: string): Promise<{ deleted: boolean }> {
+        const category = await this.repCategoriesImages.findById({_id,deletedAt:null} );
         if (!category) {
             throw new HttpException(
                 {
@@ -106,10 +98,7 @@ export class CategoriesImagesService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await this.repCategoriesImages.update(
-            { id },
-            { deletedAt: new Date() },
-        );
+        await category.update( { deletedAt: new Date() });
         return { deleted: true };
     }
 }
