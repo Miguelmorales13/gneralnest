@@ -2,8 +2,6 @@ import {
     HttpException,
     HttpStatus,
     Injectable,
-    UseInterceptors,
-    ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -43,6 +41,7 @@ export class AuthService {
             data: user,
             iss: API_URL + '/auth/login',
         });
+        
         return { token, user };
     }
     async resetPassword(payload: Partial<ResetPassowordDTO>) {

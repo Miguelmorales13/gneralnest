@@ -1,7 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { RolDTO } from '../rol/rol.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsUserAlreadyExist } from '../../classValidatorDecorators/user.decorators';
 
 /**
  * User dto

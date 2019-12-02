@@ -3,8 +3,8 @@ import * as bcrypt from 'bcrypt'
 export const User = new mongoose.Schema({
     name: { type: String, required: [true, 'El nombre es requerido'] },
     lastName: { type: String, required: [true, 'Los apellidos son requerios'] },
-    user: { type: String, unique: [true, 'El usuario ya existe'] },
-    email: { type: String, unique: [true, 'El correo ya existe'], required: [true, 'El correo es requerido'] },
+    user: { type: String,index:true, unique: [true, 'El usuario ya existe'] },
+    email: { type: String,index:true, unique: [true, 'El correo ya existe'], required: [true, 'El correo es requerido'] },
     firtsLogin: { type: Boolean, default: true },
     active: { type: Boolean, default: true },
     password: {
@@ -18,12 +18,9 @@ export const User = new mongoose.Schema({
     deletedAt: { type: Date, default: null },
     _rol: { type: mongoose.Schema.Types.ObjectId, ref: "Rols" },
 }, { timestamps: true });
-
-User.method({
-    comparePassword: (compare: string) => {
-        return bcrypt.compareSync(compare, this.password);
-    },
-})
+User.methods.comparePassword= function (compare: string) {
+    return bcrypt.compareSync(compare, this.password);
+}
 
 User.post('update', function (error, doc, next) {
     if (error.name === 'MongoError' && error.code === 11000) {
@@ -52,6 +49,6 @@ export interface IUser extends mongoose.Document {
     active: string
     password: string
     _rol: any
-    comparePassword(): any
+    comparePassword(compare:string): any
 }
 

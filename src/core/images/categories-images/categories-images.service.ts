@@ -77,8 +77,8 @@ export class CategoriesImagesService {
             );
         }
         await this.repCategoriesImages.updateOne({ _id }, {
-            ...category,
-        } as ICategoriesImages);
+             ...category,
+        });
         return { ...categoryUpdated, ...category } as ICategoriesImages;
     }
 

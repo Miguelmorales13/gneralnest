@@ -55,7 +55,11 @@ export class UserService {
      * @returns one by user and password
      */
     async getOneByUser(user: string): Promise<IUser> {
-        const userFinded = await this.repUser.findOne({ $and:[{}], $or:[{user},{email:user}]}).populate("_rol");
+        const userFinded = await this.repUser.findOne({ 
+            $or:[{user},{email:user}]
+        },
+        'email firtsLogin _id name lastname user active createdAt updatedAt'
+        ).populate("_rol");
         return userFinded;
     }
 
