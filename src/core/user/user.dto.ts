@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { RolDTO } from '../rol/rol.dto';
+import { IsEmail, IsNotEmpty, IsString, IsEnum } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { Rol, RolEnum } from './user.entity';
 
 /**
  * User dto
@@ -29,6 +29,6 @@ export class UserDTO {
     lastName?: string;
     
     @ApiModelProperty({description:'rol to user DTO'})
-    @IsNotEmpty({ message: 'El rol es requerido' })
-    _rol?: RolDTO|string;
+    @IsEnum(RolEnum,{ message: 'El rol es requerido' })
+    _rol?: Rol;
 }

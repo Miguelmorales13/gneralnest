@@ -27,7 +27,7 @@ export class UserService {
      * @returns {Promise<IUser[]>} users un database
      */
     async getAll(): Promise<IUser[]> {
-        return await this.repUser.find({},"email firtsLogin _id name lastname user active createdAt updatedAt").populate("_rol");
+        return await this.repUser.find({},"email firtsLogin _id name lastname user active createdAt updatedAt rol");
     }
 
     /**
@@ -36,7 +36,7 @@ export class UserService {
      * @returns {Promise<IUser>} user serched
      */
     async getOne(_id: string): Promise<IUser> {
-        const user = await this.repUser.findOne( { _id, deletedAt: null },"email firtsLogin _id name lastname user active createdAt" ).populate("_rol")
+        const user = await this.repUser.findOne( { _id, deletedAt: null },"email firtsLogin _id name lastname user active createdAt rol" )
         if (!user) {
             throw new HttpException(
                 {
@@ -58,8 +58,8 @@ export class UserService {
         const userFinded = await this.repUser.findOne({ 
             $or:[{user},{email:user}]
         },
-        'email firtsLogin _id name lastname user active createdAt updatedAt'
-        ).populate("_rol");
+        'email firtsLogin _id name lastname user active createdAt updatedAt rol'
+        );
         return userFinded;
     }
 
@@ -90,7 +90,7 @@ export class UserService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        await userUpdated.update( { ...user }).populate("_rol");
+        await userUpdated.update( { ...user });
         return { ...userUpdated, ...user } as IUser;
     }
 

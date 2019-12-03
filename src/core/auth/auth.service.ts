@@ -42,7 +42,7 @@ export class AuthService {
             iss: API_URL + '/auth/login',
         });
         
-        return { token, user };
+        return { token };
     }
     async resetPassword(payload: Partial<ResetPassowordDTO>) {
         const user = await this._users.getOneByUser(payload.email);

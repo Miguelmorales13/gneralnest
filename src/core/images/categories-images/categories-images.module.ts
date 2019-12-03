@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {  CategoriesImages } from './GategoriesImages.entity';
+import {  CategoriesImages } from './CategoriesImages.entity';
 import { CategoriesImagesService } from './categories-images.service';
 import { CategoriesController } from './categories-images.controller';
 import { MongooseModule } from '@nestjs/mongoose';

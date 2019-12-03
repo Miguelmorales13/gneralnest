@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { CategoriesImages, ICategoriesImages } from './GategoriesImages.entity';
+import { CategoriesImages, ICategoriesImages } from './CategoriesImages.entity';
 import { Repository } from 'typeorm';
 import { CategoryImagesDTO } from './category-images.dto';
 import { Model } from 'mongoose';

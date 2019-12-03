@@ -16,7 +16,7 @@ export const User = new mongoose.Schema({
         }
     },
     deletedAt: { type: Date, default: null },
-    _rol: { type: mongoose.Schema.Types.ObjectId, ref: "Rols" },
+    rol: { type:String,enum:['Administrador','GerenteDivicional','GerenteDistrital','GerenteMarca','RepresentanteMedico','Supervisor','Consultor'] },
 }, { timestamps: true });
 User.methods.comparePassword= function (compare: string) {
     return bcrypt.compareSync(compare, this.password);
@@ -39,6 +39,16 @@ User.post('save', function (error, doc, next) {
 User.pre('aggregate', () => {
     this.pipeline().unshift({ $match: { isDeleted: { $ne: null } } })
 })
+export type Rol='Administrador'|'GerenteDivicional'|'GerenteDistrital'|'GerenteMarca'|'RepresentanteMedico'|'Supervisor'|'Consultor'
+export enum RolEnum{
+    'Administrador',
+    'GerenteDivicional',
+    'GerenteDistrital',
+    'GerenteMarca',
+    'RepresentanteMedico',
+    'Supervisor',
+    'Consultor'
+}
 
 export interface IUser extends mongoose.Document {
     name: string
@@ -48,7 +58,7 @@ export interface IUser extends mongoose.Document {
     firstLogin: string
     active: string
     password: string
-    _rol: any
+    rol: Rol
     comparePassword(compare:string): any
 }
 

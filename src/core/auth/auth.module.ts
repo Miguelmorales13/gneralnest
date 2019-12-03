@@ -18,7 +18,6 @@ import { HelpersModule } from '../../helpers/helpers.module';
             imports: [ConfigModule],
             useFactory: async (_config: ConfigService) => ({
                 secret: _config.get('TOKEN_SECRET'),
-                signOptions: { expiresIn: '7d' },
             }),
             inject: [ConfigService],
         }),
