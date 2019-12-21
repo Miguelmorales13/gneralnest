@@ -11,8 +11,7 @@ import { IUser } from './user.entity';
  * UserService
  */
 @Injectable()
-export class UserService {
-    private service: string = 'UserService';
+export class UserService {    private service: string = 'UserService';
     /**
      * Creates an instance of user service.
      * @param repUser
