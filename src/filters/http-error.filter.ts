@@ -18,6 +18,7 @@ import {
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
 import { LoggerService } from '../helpers/logger/logger.service';
+import { join } from 'path';
 
 /**
  * Catch HttpErrorFilter implements ExceptionFilter
@@ -34,12 +35,18 @@ export class HttpErrorFilter implements ExceptionFilter {
      * @param exception Http exception
      * @param host argiment host
      */
-    constructor(private readonly _logger: LoggerService) {}
+    constructor(private readonly _logger: LoggerService) { }
     async catch(exception: HttpException, host: ArgumentsHost) {
-        // Logger.log(JSON.stringify(exception.getStatus()));
+
         const ctx: HttpArgumentsHost = host.switchToHttp();
         const request = ctx.getRequest<Request>();
         const response = ctx.getResponse<Response>();
+        // implementacion de angular o vue o react
+        if (exception instanceof HttpException && exception.getStatus() == 404)
+            return response.sendFile(
+                join(__dirname, '../../public/dist/index.html'),
+            );
+
         const status =
             exception instanceof HttpException
                 ? exception.getStatus()

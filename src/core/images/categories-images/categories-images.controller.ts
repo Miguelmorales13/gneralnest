@@ -10,9 +10,9 @@ import {
 import { CategoriesImagesService } from './categories-images.service';
 import { CategoryImagesDTO } from './category-images.dto';
 
-@Controller('api/categories-images')
+@Controller('categories-images')
 export class CategoriesController {
-    constructor(private readonly _categoryImages: CategoriesImagesService) {}
+    constructor(private readonly _categoryImages: CategoriesImagesService) { }
 
     /**
      * Gets categoryImage controller

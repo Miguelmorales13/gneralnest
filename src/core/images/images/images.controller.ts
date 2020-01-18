@@ -14,9 +14,9 @@ import { ImageDTO } from './image.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { generateStorageMulter } from '../../../config/constants';
 
-@Controller('api/images')
+@Controller('images')
 export class ImagesController {
-    constructor(private readonly _images: ImagesService) {}
+    constructor(private readonly _images: ImagesService) { }
 
     /**
      * Gets image controller

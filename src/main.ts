@@ -3,9 +3,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as compression from 'compression';
 import { ValidatorPipe } from './pipes/validator.pipe';
+import * as express from 'express';
+import { join } from 'path';
 import { config } from 'dotenv';
+
 async function bootstrap() {
-    
+
     const app = await NestFactory.create(AppModule, {
         logger: ['error', 'warn', 'log', 'debug', 'verbose'],
         cors: true,
@@ -17,12 +20,16 @@ async function bootstrap() {
         .setVersion('1.0')
         .addTag('general')
         .build();
-        app.use(compression());
-        
+    app.use(compression());
+
     const document = SwaggerModule.createDocument(app, options);
+    app.use(express.static(join(__dirname, '../public/dist/')));
+    app.use(express.static(join(__dirname, '../public/uploads/')));
     SwaggerModule.setup('api', app, document);
     app.useGlobalPipes(new ValidatorPipe());
-    await app.listen(3000, '192.168.1.70');
-    console.log('listen in port http://192.168.1.70:3000');
+    await app.listen(process.env.PORT);
+    console.log(
+        `listen in port http://${process.env.HOST}:${process.env.PORT}`,
+    );
 }
 bootstrap();

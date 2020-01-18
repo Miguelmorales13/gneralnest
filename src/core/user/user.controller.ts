@@ -20,9 +20,9 @@ import { generateStorageMulter } from '../../config/constants';
  * Controller users
  */
 // @UseGuards(AuthGuard('jwt'))
-@Controller('api/user')
+@Controller('user')
 export class UserController {
-    constructor(private readonly _users: UserService) {}
+    constructor(private readonly _users: UserService) { }
 
     /**
      * Gets user controller

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { createTransport, createTestAccount, Transporter } from 'nodemailer';
 import { ConfigService } from '../../config/config.service';
 import { renderFile } from 'pug';
+import { join } from 'path';
 
 @Injectable()
 export class EmailsService {
@@ -10,9 +11,9 @@ export class EmailsService {
         let user: any = _config.get('EMAIL_TEST')
             ? createTestAccount()
             : {
-                  user: _config.get('EMAIL_USER'),
-                  pass: _config.get('EMAIL_PASSWORD'),
-              };
+                user: _config.get('EMAIL_USER'),
+                pass: _config.get('EMAIL_PASSWORD'),
+            };
         this.transporter = createTransport({
             host: _config.get('EMAIL_HOST'),
             port: _config.get('EMAIL_PORT'),
@@ -20,6 +21,7 @@ export class EmailsService {
             auth: { ...user },
         });
     }
+
     async sendMail(
         from: string,
         to: string,
@@ -36,6 +38,6 @@ export class EmailsService {
         });
     }
     async generateTemplate<T>(template: string, object: T): Promise<string> {
-        return renderFile(`./templates/${template}.email.pug`, { ...object });
+        return renderFile(join(__dirname, `/templates/${template}.email.pug`), { ...object })
     }
 }

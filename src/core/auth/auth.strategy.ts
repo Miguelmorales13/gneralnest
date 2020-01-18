@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
+            ignoreExpiration: true,
             secretOrKey: _config.get('TOKEN_SECRET'),
         });
     }
@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     async validate(payload: any) {
         const user = await this._auth.validateUser(payload);
         if (this._config.get('NODE_ENV') === 'development') {
-            return { done:true };
+            return { done: true };
         }
         if (!user) {
             throw new HttpException(

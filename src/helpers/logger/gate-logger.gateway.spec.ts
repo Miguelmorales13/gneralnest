@@ -8,7 +8,6 @@ describe('GateLoggerGateway', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [GateLoggerGateway],
     }).compile();
-
     gateway = module.get<GateLoggerGateway>(GateLoggerGateway);
   });
 
