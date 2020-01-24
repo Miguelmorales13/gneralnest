@@ -8,28 +8,28 @@ import { join } from 'path';
 import { config } from 'dotenv';
 
 async function bootstrap() {
-
-    const app = await NestFactory.create(AppModule, {
-        logger: ['error', 'warn', 'log', 'debug', 'verbose'],
-        cors: true,
-    });
-    app.enableCors();
-    const options = new DocumentBuilder()
-        .setTitle('general')
-        .setDescription('The general API description')
-        .setVersion('1.0')
-        .addTag('general')
-        .build();
-    app.use(compression());
-
-    const document = SwaggerModule.createDocument(app, options);
-    app.use(express.static(join(__dirname, '../public/dist/')));
-    app.use(express.static(join(__dirname, '../public/uploads/')));
-    SwaggerModule.setup('api', app, document);
-    app.useGlobalPipes(new ValidatorPipe());
-    await app.listen(process.env.PORT);
-    console.log(
-        `listen in port http://${process.env.HOST}:${process.env.PORT}`,
-    );
+	const app = await NestFactory.create(AppModule, {
+		logger: ['error', 'warn', 'log', 'debug', 'verbose'],
+		cors: true,
+	});
+	app.enableCors();
+	const options = new DocumentBuilder()
+		.setTitle('general')
+		.setDescription('The general API description')
+		.setVersion('1.0')
+		.addTag('general')
+		.setBasePath('/api/')
+		.build();
+	app.use(compression());
+	app.setGlobalPrefix('api');
+	const document = SwaggerModule.createDocument(app, options);
+	app.use(express.static(join(__dirname, '../public/dist/')));
+	app.use(express.static(join(__dirname, '../public/uploads/')));
+	SwaggerModule.setup('api', app, document);
+	app.useGlobalPipes(new ValidatorPipe());
+	await app.listen(process.env.PORT);
+	console.log(
+		`listen in port http://${process.env.HOST}:${process.env.PORT}`,
+	);
 }
 bootstrap();

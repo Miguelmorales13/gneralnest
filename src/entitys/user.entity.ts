@@ -16,7 +16,6 @@ export class UserEntity extends Generar {
     @Column({ length: 100, unique: true })
     email: string;
 
-
     @Column({ length: 60 })
     password: string;
 
