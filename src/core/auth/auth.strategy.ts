@@ -6,31 +6,31 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        private readonly _auth: AuthService,
-        private readonly _config: ConfigService,
-    ) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: true,
-            secretOrKey: _config.get('TOKEN_SECRET'),
-        });
-    }
+	constructor(
+		private readonly _auth: AuthService,
+		private readonly _config: ConfigService,
+	) {
+		super({
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			ignoreExpiration: true,
+			secretOrKey: _config.get('TOKEN_SECRET'),
+		});
+	}
 
-    async validate(payload: any) {
-        const user = await this._auth.validateUser(payload);
-        if (this._config.get('NODE_ENV') === 'development') {
-            return { done: true };
-        }
-        if (!user) {
-            throw new HttpException(
-                {
-                    error: 'Credenciales invalidas',
-                    where: 'AuthStrategy::validate',
-                },
-                HttpStatus.UNAUTHORIZED,
-            );
-        }
-        return { ...user };
-    }
+	async validate(payload: any) {
+		const user = await this._auth.validateUser(payload);
+		if (this._config.get('NODE_ENV') === 'development') {
+			return { done: true };
+		}
+		if (!user) {
+			throw new HttpException(
+				{
+					error: 'Credenciales invalidas',
+					where: 'AuthStrategy::validate',
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		return { ...user };
+	}
 }

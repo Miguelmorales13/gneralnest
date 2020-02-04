@@ -12,16 +12,23 @@ export type Uploads = 'images' | 'pdfs' | 'xlsx';
  * @returns  config to disk storage
  */
 export const generateStorageMulter = (
-    type: Uploads = 'images',
-    maxSize: number = 3,
+	type: Uploads = 'images',
+	maxSize: number = 3,
 ) => ({
-    storage: diskStorage({
-        destination: `./public/uploads/${type}`,
-        filename: (req, file, cb) => {
-            return cb(null, `${uuid()}${extname(file.originalname)}`);
-        },
-    }),
-    limits: {
-        fileSize: maxSize * 1024 * 1024,
-    },
+	storage: diskStorage({
+		destination: `./public/uploads/${type}`,
+		filename: (req, file, cb) => {
+			return cb(null, `${uuid()}${extname(file.originalname)}`);
+		},
+	}),
+	limits: {
+		fileSize: maxSize * 1024 * 1024,
+	},
 });
+export function generatePassword(size: number): string {
+	let chars = 'abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789';
+	let password = '';
+	for (let i = 0; i < size; i++)
+		password += chars.charAt(Math.floor(Math.random() * chars.length));
+	return password;
+}

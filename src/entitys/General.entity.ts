@@ -1,20 +1,16 @@
-import {
-    Column,
-    CreateDateColumn,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Exclusion, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+@Exclusion(`"deletedAt" is not null`)
 export abstract class Generar {
-    @PrimaryGeneratedColumn()
-    id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
+	@CreateDateColumn()
+	createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+	@UpdateDateColumn()
+	updatedAt: Date;
 
-    @Column({ nullable: true })
-    deletedAt?: Date;
+	@Column({ nullable: true })
+	deletedAt?: Date;
 }

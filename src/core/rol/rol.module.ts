@@ -5,8 +5,8 @@ import { RolController } from './rol.controller';
 import { RolService } from './rol.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([RolEntity])],
-    providers: [RolService],
-    controllers: [RolController],
+	imports: [TypeOrmModule.forFeature([RolEntity])],
+	providers: [RolService],
+	controllers: [RolController],
 })
-export class RolModule {}
+export class RolModule { }

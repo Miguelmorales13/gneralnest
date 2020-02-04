@@ -1,11 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
 import * as compression from 'compression';
-import { ValidatorPipe } from './pipes/validator.pipe';
 import * as express from 'express';
 import { join } from 'path';
-import { config } from 'dotenv';
+import { AppModule } from './app.module';
+import { ValidatorPipe } from './pipes/validator.pipe';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {

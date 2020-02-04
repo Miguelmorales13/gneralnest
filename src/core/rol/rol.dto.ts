@@ -1,19 +1,18 @@
-import { IsNotEmpty, IsString, IsBoolean } from 'class-validator';
-import { RolAccess } from '../../entitys/rol.entity';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 /**
  * Rol dto
  */
 export class RolDTO {
 
-    @ApiModelProperty({description: 'name to rol', type:'string' })
-    @IsString({ message: 'El nombre es requerido' })
-    name?: string;
-    
-    @ApiModelProperty({description: 'access assigned to rol' })
-    @IsNotEmpty({ message: 'accessos invalidos' })
-    access?: number | AccessDTO;
+	@ApiModelProperty({ description: 'name to rol', type: 'string' })
+	@IsString({ message: 'El nombre es requerido' })
+	name?: string;
+
+	@ApiModelProperty({ description: 'access assigned to rol' })
+	@IsNotEmpty({ message: 'accessos invalidos' })
+	access?: number | AccessDTO;
 }
 
 /**
@@ -21,13 +20,13 @@ export class RolDTO {
  */
 export class AccessDTO {
 
-    @ApiModelProperty({description:'access to module dependence ', type:'boolean'})
-    @IsBoolean({ message: 'accessos de lectura invalidos' })
-    read?: boolean;
-    
-    @ApiModelProperty({description:'access to module dependence ', type:'boolean'})
-    @IsBoolean({ message: 'accessos de escritura invalidos' })
-    write?: boolean;
+	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
+	@IsBoolean({ message: 'accessos de lectura invalidos' })
+	read?: boolean;
+
+	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
+	@IsBoolean({ message: 'accessos de escritura invalidos' })
+	write?: boolean;
 }
 
 /**
@@ -35,11 +34,11 @@ export class AccessDTO {
  */
 export class RolAccessDTO {
 
-    @ApiModelProperty({description: 'module to access'})
-    @IsNotEmpty({ message: 'accessos de usuarios invalidos' })
-    users: AccessDTO;
+	@ApiModelProperty({ description: 'module to access' })
+	@IsNotEmpty({ message: 'accessos de usuarios invalidos' })
+	users: AccessDTO;
 
-    @ApiModelProperty({description: 'module to access'})
-    @IsNotEmpty({ message: 'accessos de roles invalidos' })
-    rols: AccessDTO;
+	@ApiModelProperty({ description: 'module to access' })
+	@IsNotEmpty({ message: 'accessos de roles invalidos' })
+	rols: AccessDTO;
 }
