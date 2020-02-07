@@ -4,8 +4,8 @@ import { Generar } from './General.entity';
 /**
  * Entity  rol
  */
-@Entity('rol')
-export class RolEntity extends Generar {
+@Entity()
+export class Rol extends Generar {
 	@Column({ length: 100, unique: true })
 	name: string;
 

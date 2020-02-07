@@ -1,75 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { generateStorageMulter } from '../../../config/constants';
+import { Controller } from '@nestjs/common';
+import { Crud } from '@nestjsx/crud';
+
+import { ImageEntity } from '../../../entitys/Image.entity';
 import { ImageDTO } from './image.dto';
 import { ImagesService } from './images.service';
 
+@Crud({
+	model: {
+		type: ImageEntity,
+	},
+	dto: {
+		create: ImageDTO,
+		update: ImageDTO,
+		replace: ImageDTO
+	},
+})
 @Controller('images')
 export class ImagesController {
-	constructor(private readonly _images: ImagesService) { }
+	constructor(private readonly service: ImagesService) { }
 
-    /**
-     * Gets image controller
-     * @returns  images[]
-     */
-	@Get()
-	getAll() {
-		return this._images.getAll();
-	}
-    /**
-     * Gets image controller
-     * @param id by image
-     * @returns  image
-     */
-	@Get(':id')
-	getOne(@Param('id') id: number) {
-		return this._images.getOne(id);
-	}
-    /**
-     * Posts image controller
-     * @param image to new image
-     * @returns  new image
-     */
-	@Post()
-	@UseInterceptors(
-		FilesInterceptor('image', 1, generateStorageMulter('images')),
-	)
-	create(@Body() image: ImageDTO, @UploadedFiles() files) {
-		return this._images.created({
-			...image,
-			url: files[0].path,
-		} as ImageDTO);
-	}
-    /**
-     * Posts image controller
-     * @param image to new image
-     * @returns  new image
-     */
-	@Post('multi')
-	@UseInterceptors(
-		FilesInterceptor('image', 4, generateStorageMulter('images')),
-	)
-	async createMulti(@Body() image: ImageDTO[], @UploadedFiles() files) {
-		return { yes: files };
-	}
-    /**
-     * Puts image controller
-     * @param id  by image
-     * @param image params to new image
-     * @returns  image updated
-     */
-	@Put(':id')
-	update(@Param('id') id: number, @Body() image: ImageDTO) {
-		return this._images.updated(id, image as ImageDTO);
-	}
-
-    /**
-     * Deletes image controller
-     * @param id
-     * @returns
-     */
-	@Delete(':id')
-	delete(@Param('id') id: number) {
-		return this._images.deleted(id);
-	}
 }
