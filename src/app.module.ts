@@ -1,9 +1,9 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import * as path from 'path';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
@@ -16,30 +16,13 @@ import { UserModule } from './core/user/user.module';
 import { HttpErrorFilter } from './filters/http-error.filter';
 import { HelpersModule } from './helpers/helpers.module';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
+import { DatabaseModule } from './providers/database.module';
 
 /**
  * Module
  */
 @Module({
 	imports: [
-		// Typeorm  config async
-		TypeOrmModule.forRootAsync({
-			imports: [ConfigModule],
-			useFactory: async (_config: ConfigService) =>
-				({
-					type: _config.get('TYPEORM_TYPE'),
-					host: _config.get('TYPEORM_HOST'),
-					port: _config.get('TYPEORM_PORT'),
-					username: _config.get('TYPEORM_USERNAME'),
-					password: _config.get('TYPEORM_PASSWORD'),
-					database: _config.get('TYPEORM_DATABASE'),
-					entities: [__dirname + '/entitys/*.entity{.ts,.js}'],
-					synchronize: _config.get('TYPEORM_SYNCRHONIZE'),
-					logging: ['error', 'info', 'query'],
-					// logger: 'debug', // logger to error  database,
-				} as TypeOrmModuleOptions),
-			inject: [ConfigService],
-		}),
 		// multer config async for upload files
 		MulterModule.registerAsync({
 			imports: [ConfigModule],

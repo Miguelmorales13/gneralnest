@@ -1,28 +1,32 @@
-import { Entity, Column, OneToMany, ManyToOne } from 'typeorm';
-import { Generar } from './General.entity';
-import { CategoriesImagesEntity } from './GategoriesImages.entity';
+import { BelongsTo, Column, ForeignKey, Table } from 'sequelize-typescript';
+
+import { CategoryImages } from './GategoriesImages.entity';
+import { General } from './General.entity';
 
 /**
  * Entity  images
  */
-@Entity('images')
-export class ImageEntity extends Generar {
-    @Column({ length: 100, nullable: false, unique: true })
-    title: string;
+@Table({
+	paranoid: true,
+	timestamps: true
+})
+export class Image extends General<Image> {
+	@Column
+	title: string;
 
-    @Column({ length: 250, nullable: true })
-    description: string;
+	@Column
+	description: string;
 
-    @Column({ length: 200, nullable: false })
-    url: string;
+	@Column
+	url: string;
 
-    @Column({ length: 100, nullable: false })
-    public_id: string;
+	@Column
+	public_id: string;
 
-    @ManyToOne(
-        (type) => CategoriesImagesEntity,
-        (category) => category.images,
-        { cascade: true, nullable: false },
-    )
-    category: CategoriesImagesEntity;
+	@ForeignKey(() => CategoryImages)
+	@Column
+	categoryId: number;
+
+	@BelongsTo(() => CategoryImages)
+	category: CategoryImages;
 }

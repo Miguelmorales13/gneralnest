@@ -36,7 +36,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 				? exception.getStatus()
 				: HttpStatus.INTERNAL_SERVER_ERROR;
 
-		const where: string = exception.message.where || 'SERVER';
+		const wheree: string = exception.message.where || 'SERVER';
 		const errorResponce = {
 			code: status,
 			timestamps: new Date().toLocaleDateString(),
@@ -48,12 +48,12 @@ export class HttpErrorFilter implements ExceptionFilter {
 			await this._logger.addLoggerInterceptor(
 				request,
 				Date.now(),
-				where,
+				wheree,
 				'ERROR',
 				errorResponce,
 			),
 			exception.stack,
-			where,
+			wheree,
 		);
 
 		response.status(status).json(errorResponce);

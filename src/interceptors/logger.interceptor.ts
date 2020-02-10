@@ -21,8 +21,9 @@ export class LoggerInterceptor implements NestInterceptor {
 		call$: CallHandler<any>,
 	): Observable<any> {
 		const req = context.switchToHttp().getRequest<Request>();
-		const where =
-			context.getClass().name + '::' + context.getHandler().name;
+		console.log(req);
+
+		const wheree = context.getClass().name + '::' + context.getHandler().name;
 		const now = Date.now();
 		return call$.handle().pipe(
 			tap(async () => {
@@ -30,11 +31,11 @@ export class LoggerInterceptor implements NestInterceptor {
 					await this._logger.addLoggerInterceptor(
 						req,
 						now,
-						where,
+						wheree,
 						'REQUEST',
 						req.body,
 					),
-					where,
+					wheree,
 				);
 			}),
 			map(async (data) => {
@@ -42,13 +43,13 @@ export class LoggerInterceptor implements NestInterceptor {
 					await this._logger.addLoggerInterceptor(
 						req,
 						now,
-						where,
+						wheree,
 						'RESPONSE',
 						data,
 					),
-					where,
+					wheree,
 				);
-				return data;
+				return { data: data[0] || null, message: data[1] || 'Operacion exitosa' };
 			}),
 		);
 	}

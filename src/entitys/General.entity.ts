@@ -1,16 +1,19 @@
-import { Column, CreateDateColumn, Exclusion, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Exclusion(`"deletedAt" is not null`)
-export abstract class Generar {
-	@PrimaryGeneratedColumn()
-	id: number;
+import { PrimaryKey, CreatedAt, UpdatedAt, DeletedAt, Model, Column, DataType, IsUUID } from 'sequelize-typescript';
 
-	@CreateDateColumn()
-	createdAt: Date;
+export class General<T> extends Model<T> {
+	@Column({ autoIncrement: true, primaryKey: true })
+	id?: number;
 
-	@UpdateDateColumn()
-	updatedAt: Date;
+	@CreatedAt
+	@Column
+	createdAt?: Date;
 
-	@Column({ nullable: true })
+	@UpdatedAt
+	@Column
+	updatedAt?: Date;
+
+	@DeletedAt
+	@Column
 	deletedAt?: Date;
 }

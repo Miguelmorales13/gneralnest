@@ -1,38 +1,38 @@
-import * as bcrypt from 'bcrypt';
-import { Column, Entity, BeforeInsert } from 'typeorm';
-import { Generar } from './General.entity';
-import * as moment from 'moment';
+import { BeforeCreate, Column, Table, DataType } from 'sequelize-typescript';
+
+import { General } from './General.entity';
+
 /**
  * Entity logger
  */
-@Entity('logger')
-export class LoggerEntity extends Generar {
-    @Column({ length: 100 })
-    url: string;
+@Table({
+	paranoid: true,
+	timestamps: true
+})
+export class Logger extends General<Logger> {
+	@Column
+	url: string;
 
-    @Column({ type: 'enum', enum: ['REQUEST', 'RESPONSE', 'ERROR', 'SERVICE'] })
-    type: string;
+	@Column
+	type: string;
 
-    @Column({ length: 100 })
-    method: string;
+	@Column
+	method: string;
 
-    @Column({ type: 'bigint' })
-    now: number;
+	@Column(DataType.BIGINT)
+	now: number;
 
-    @Column({ length: 500 })
-    result: string;
+	@Column(DataType.STRING(500))
+	result: string;
 
-    @Column()
-    where: string;
+	@Column
+	wheree: string;
 
-    @BeforeInsert()
-    recortMessage() {
-        this.result =
-            this.result.length > 500 ? this.result.substr(0, 500) : this.result;
-    }
-    _toString(): string {
-        return `${this.method} ${this.url} ${Date.now() - this.now}ms [${
-            this.type
-        }::${this.result}]`;
-    }
+	@BeforeCreate
+	static recortMessage(instance: Logger) {
+		instance.result = instance.result.length > 500 ? instance.result.substr(0, 500) : instance.result;
+	}
+	_toString(): string {
+		return `${this.method} ${this.url} ${Date.now() - this.now}ms [${this.type}::${this.result}]`;
+	}
 }

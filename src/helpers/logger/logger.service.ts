@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import * as fs from 'fs';
@@ -6,30 +6,25 @@ import * as moment from 'moment';
 import * as path from 'path';
 import { Repository } from 'typeorm';
 import { ConfigService } from '../../config/config.service';
-import { LoggerEntity } from '../../entitys/Logger.entity';
+import { Logger } from '../../entitys/Logger.entity';
 import { GateLoggerGateway } from './gate-logger.gateway';
 
 @Injectable()
 export class LoggerService {
 	constructor(
-		@InjectRepository(LoggerEntity)
-		private readonly repLog: Repository<LoggerEntity>,
+		@Inject('LOGGERS_REPOSITORY') private readonly repLog: typeof Logger,
 		private readonly _config: ConfigService,
 		private readonly _gateLog: GateLoggerGateway,
 	) { }
 
 	async getLogs() {
-		return await this.repLog.find({
-			where: { deletedAt: null },
-			take: 1000,
-			order: { createdAt: 'DESC' },
-		});
+		return await this.repLog.findAll({ limit: 1000 });
 	}
 
 	async addLoggerInterceptor(
 		{ method, url }: Request,
 		now: number,
-		where: string,
+		wheree: string,
 		type: TypeLogger,
 		result: object,
 	): Promise<any> {
@@ -37,18 +32,17 @@ export class LoggerService {
 			url,
 			type,
 			now,
-			where,
+			wheree,
 			method,
 			result: JSON.stringify(result),
 		});
-		await this.repLog.save(logger);
 		if (this._config.get('LOGS_WRITE')) {
 			this.writeLogger(logger);
 		}
 		this._gateLog.sendLog(await logger._toString());
 		return await logger._toString();
 	}
-	async writeLogger(logger: LoggerEntity) {
+	async writeLogger(logger: Logger) {
 		const date = moment().format('DD-MM-YYYY');
 		const url = path.join(
 			__dirname,
@@ -59,7 +53,7 @@ export class LoggerService {
 		fs.appendFile(
 			url,
 			`[${moment(logger.createdAt).format('DD-MM-YYYY HH:MM:SS')}] [${
-			logger.where
+			logger.wheree
 			}] ${logger._toString()}` + '\n',
 			(error) => {
 				if (error) {

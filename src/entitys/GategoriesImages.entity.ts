@@ -1,21 +1,25 @@
-import { Entity, Column, OneToMany } from 'typeorm';
-import { Generar } from './General.entity';
-import { ImageEntity } from './Image.entity';
+import { Column, HasMany, Table } from 'sequelize-typescript';
+
+import { General } from './General.entity';
+import { Image } from './Image.entity';
 
 /**
  * Entity  rol
  */
-@Entity('categories_images')
-export class CategoriesImagesEntity extends Generar {
-    @Column({ length: 100, unique: true })
-    name: string;
+@Table({
+	paranoid: true,
+	timestamps: true
+})
+export class CategoryImages extends General<CategoryImages> {
+	@Column
+	name?: string;
 
-    @Column({ length: 100, nullable: true })
-    description: string;
+	@Column
+	description?: string;
 
-    @Column({ default: false })
-    isSystem: boolean;
+	@Column
+	isSystem?: boolean;
 
-    @OneToMany((type) => ImageEntity, (image) => image.category)
-    images: ImageEntity[];
+	@HasMany(() => Image)
+	images?: Image[];
 }

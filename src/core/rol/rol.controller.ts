@@ -1,25 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { Crud } from '@nestjsx/crud';
+
+import { Rol } from '../../entitys/rol.entity';
 import { RolDTO } from './rol.dto';
 import { RolService } from './rol.service';
-import { Rol } from '../../entitys/rol.entity';
-import { Crud } from '@nestjsx/crud';
 
 /**
  * Controller api rol
  */
 // @UseGuards(AuthGua   rd('jwt'))
-@Crud({
-	model: {
-		type: Rol,
-	},
-	dto: {
-		create: RolDTO,
-		update: RolDTO,
-		replace: RolDTO
-	},
-})
-@Controller('rol')
+@Controller('rols')
 export class RolController {
-	constructor(private readonly service: RolService) { }
+	constructor(private readonly _rol: RolService) { }
 
 }

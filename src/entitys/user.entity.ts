@@ -1,44 +1,43 @@
 import * as bcrypt from 'bcrypt';
-import { BeforeInsert, Column, Entity } from 'typeorm';
-import { Generar } from './General.entity';
+import { General } from './General.entity';
 import { generatePassword } from '../config/constants';
+import { Table, Column, BeforeCreate } from 'sequelize-typescript';
 /**
  * Entity user
  */
-@Entity('user')
-export class UserEntity extends Generar {
-	@Column({ length: 100 })
+@Table({
+	paranoid: true,
+	timestamps: true
+})
+export class User extends General<User> {
+	@Column
 	name?: string;
 
-	@Column({ length: 100, unique: true })
+	@Column
 	user?: string;
 
-	@Column({ length: 100, unique: true })
+	@Column
 	email?: string;
 
-	@Column({ length: 60 })
+	@Column
 	password?: string;
 
-	@Column({ length: 100 })
+	@Column
 	lastname?: string;
 
 	// @ManyToOne((type) => RolEntity, (rol) => rol.users, { cascade: true })
 	// rol: RolEntity;
 
-	@Column({ default: true })
+	@Column({ defaultValue: true })
 	active?: boolean;
 
-	@BeforeInsert()
-	setPassword() {
-		this.user = this.user
-			? this.user
-			: this.name.slice(0, 3) +
-			this.lastname.slice(0, 3) +
-			generatePassword(3);
-		this.password = bcrypt.hashSync(this.password, 10);
+	@BeforeCreate
+	static async setPassword(instance: User) {
+		instance.user = instance.user ? instance.user : instance.name.slice(0, 3) + instance.lastname.slice(0, 3) + generatePassword(3);
+		instance.password = await bcrypt.hashSync(instance.password, 10);
 	}
 
-	comparePassword(compare: string) {
-		return bcrypt.compareSync(compare, this.password);
+	async comparePassword(compare: string) {
+		return await bcrypt.compareSync(compare, this.password);
 	}
 }

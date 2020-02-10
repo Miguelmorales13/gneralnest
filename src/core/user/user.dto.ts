@@ -5,6 +5,7 @@ import { IsEmail, IsString } from 'class-validator';
  * User dto
  */
 export class UserDTO {
+	id?: number
 	@ApiModelProperty({ description: 'name to user DTO' })
 	@IsString({ message: 'El nombre es una cadena' })
 	name?: string;
@@ -19,7 +20,7 @@ export class UserDTO {
 	email?: string;
 
 	@ApiModelProperty({ description: 'password to user DTO' })
-	@IsString({ message: 'Contraseña requerida' })
+	// @IsString({ message: 'Contraseña requerida' })
 	password?: string;
 
 	@ApiModelProperty({ description: 'lastname to user DTO' })
