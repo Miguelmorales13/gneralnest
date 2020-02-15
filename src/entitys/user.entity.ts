@@ -5,8 +5,8 @@ import { generatePassword } from '../config/constants';
 /**
  * Entity user
  */
-@Entity('user')
-export class UserEntity extends Generar {
+@Entity()
+export class User extends Generar {
 	@Column({ length: 100 })
 	name?: string;
 
@@ -22,8 +22,8 @@ export class UserEntity extends Generar {
 	@Column({ length: 100 })
 	lastname?: string;
 
-	// @ManyToOne((type) => RolEntity, (rol) => rol.users, { cascade: true })
-	// rol: RolEntity;
+	// @ManyToOne((type) => Rol, (rol) => rol.users, { cascade: true })
+	// rol: Rol;
 
 	@Column({ default: true })
 	active?: boolean;

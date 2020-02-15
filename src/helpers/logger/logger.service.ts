@@ -6,14 +6,14 @@ import * as moment from 'moment';
 import * as path from 'path';
 import { Repository } from 'typeorm';
 import { ConfigService } from '../../config/config.service';
-import { LoggerEntity } from '../../entitys/Logger.entity';
+import { Logger } from '../../entitys/Logger.entity';
 import { GateLoggerGateway } from './gate-logger.gateway';
 
 @Injectable()
 export class LoggerService {
 	constructor(
-		@InjectRepository(LoggerEntity)
-		private readonly repLog: Repository<LoggerEntity>,
+		@InjectRepository(Logger)
+		private readonly repLog: Repository<Logger>,
 		private readonly _config: ConfigService,
 		private readonly _gateLog: GateLoggerGateway,
 	) { }
@@ -48,7 +48,7 @@ export class LoggerService {
 		this._gateLog.sendLog(await logger._toString());
 		return await logger._toString();
 	}
-	async writeLogger(logger: LoggerEntity) {
+	async writeLogger(logger: Logger) {
 		const date = moment().format('DD-MM-YYYY');
 		const url = path.join(
 			__dirname,

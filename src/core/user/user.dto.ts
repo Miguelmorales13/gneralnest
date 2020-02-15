@@ -1,5 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 /**
  * User dto
@@ -20,6 +21,7 @@ export class UserDTO {
 
 	@ApiModelProperty({ description: 'password to user DTO' })
 	@IsString({ message: 'Contraseña requerida' })
+	@Exclude()
 	password?: string;
 
 	@ApiModelProperty({ description: 'lastname to user DTO' })

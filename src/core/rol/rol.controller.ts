@@ -1,34 +1,20 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { RolDTO } from './rol.dto';
 import { RolService } from './rol.service';
+import { Crud } from '@nestjsx/crud';
+import { Rol } from '../../entitys/rol.entity';
 
 /**
  * Controller api rol
  */
 // @UseGuards(AuthGua   rd('jwt'))
-@Controller('rol')
+@Crud({
+	model: {
+		type: Rol
+	}
+})
+@Controller('rols')
 export class RolController {
 	constructor(private readonly _rols: RolService) { }
 
-	@Get()
-	getAll() {
-		return this._rols.getAll();
-	}
-	@Get(':id')
-	getOne(@Param('id') id: number) {
-		return this._rols.getOne(id);
-	}
-	@Post()
-	create(@Body() rol: RolDTO) {
-		return this._rols.created(rol);
-	}
-	@Put(':id')
-	update(@Param('id') id: number, @Body() rol: RolDTO) {
-		return this._rols.updated(id, rol);
-	}
-
-	@Delete(':id')
-	delete(@Param('id') id: number) {
-		return this._rols.deleted(id);
-	}
 }

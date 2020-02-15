@@ -19,11 +19,11 @@ export class AuthService {
 	) { }
 
 	async validateUser({ user }: any) {
-		return await this._users.getOneByUser(user.user);
+		return await this._users.getByUser(user.user);
 	}
 
 	async login(payload: Partial<AuthDTO>) {
-		const user = await this._users.getOneByUser(payload.user);
+		const user = await this._users.getByUser(payload.user);
 		if (!user || !(await user.comparePassword(payload.password))) {
 			throw new HttpException(
 				{
@@ -40,7 +40,7 @@ export class AuthService {
 		return { token, user };
 	}
 	async resetPassword(payload: Partial<ResetPassowordDTO>) {
-		const user = await this._users.getOneByUser(payload.email);
+		const user = await this._users.getByUser(payload.email);
 		// if (!user) {
 		//     throw new HttpException(
 		//         {
