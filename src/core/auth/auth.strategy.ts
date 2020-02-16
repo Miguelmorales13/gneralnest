@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		if (!user) {
 			throw new HttpException(
 				{
-					error: 'Credenciales invalidas',
+					error: 'Sin autorizacion',
 					where: 'AuthStrategy::validate',
 				},
 				HttpStatus.UNAUTHORIZED,

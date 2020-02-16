@@ -5,19 +5,23 @@ import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
 import { Crud } from '@nestjsx/crud';
 import { User } from '../../entitys/user.entity';
+import { ApiUseTags } from '@nestjs/swagger';
 
 /**
  * Controller users
  */
 // @UseGuards(AuthGuard('jwt'))
+@ApiUseTags('Users')
 @Crud({
 	model: {
 		type: User
-	}
+	},
+
+
 })
 @Controller('users')
 export class UserController {
-	constructor(public _users: UserService) { }
+	constructor(public service: UserService) { }
 	@Post('photo')
 	@UseInterceptors(
 		FilesInterceptor('photo', 1, generateStorageMulter('images')),

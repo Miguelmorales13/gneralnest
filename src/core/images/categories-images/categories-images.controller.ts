@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { CategoriesImagesService } from './categories-images.service';
-import { CategoryImagesDTO } from './category-images.dto';
+import { Controller } from '@nestjs/common';
 import { Crud } from '@nestjsx/crud';
+
 import { CategoryImages } from '../../../entitys/GategoriesImages.entity';
+import { CategoriesImagesService } from './categories-images.service';
+import { ApiUseTags } from '@nestjs/swagger';
 
-
+@ApiUseTags('Categories images')
 @Crud({
 	model: {
 		type: CategoryImages
@@ -12,6 +13,6 @@ import { CategoryImages } from '../../../entitys/GategoriesImages.entity';
 })
 @Controller('categories-images')
 export class CategoriesController {
-	constructor(private readonly _categoryImages: CategoriesImagesService) { }
+	constructor(private readonly service: CategoriesImagesService) { }
 
 }

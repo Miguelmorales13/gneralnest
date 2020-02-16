@@ -16,9 +16,9 @@ export class ImageDTO {
 	@ApiModelProperty({ description: 'description to image DTO' })
 	url?: string;
 
-	@ApiModelProperty({ description: 'description to image DTO' })
-	public_id?: string;
+	// @ApiModelProperty({ description: 'description to image DTO' })
+	// public_id?: string;
 
 	@ApiModelProperty({ description: 'category to image DTO' })
-	category?: CategoryImagesDTO;
+	category?: CategoryImagesDTO | number;
 }

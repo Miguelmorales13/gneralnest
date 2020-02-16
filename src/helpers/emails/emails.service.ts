@@ -20,6 +20,7 @@ export class EmailsService {
 			secure: _config.get('EMAIL_SEGURE'), // true for 465, false for other ports
 			auth: { ...user },
 		});
+
 	}
 
 	async sendMail(
@@ -38,6 +39,10 @@ export class EmailsService {
 		});
 	}
 	async generateTemplate<T>(template: string, object: T): Promise<string> {
-		return renderFile(join(__dirname, `/templates/${template}.email.pug`), { ...object })
+		if (this._config.get('NODE_ENV') == 'production') {
+			return renderFile(join(__dirname, `../../../src/helpers/emails/templates/${template}.email.pug`), { ...object })
+		} else {
+			return renderFile(join(__dirname, `/templates/${template}.email.pug`), { ...object })
+		}
 	}
 }

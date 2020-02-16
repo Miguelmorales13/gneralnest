@@ -33,6 +33,24 @@ export class AuthService {
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
+		if (!user.active) {
+			throw new HttpException(
+				{
+					error: 'Usuario desactivado',
+					where: this.service + '::validateUser',
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		if (!user.confirm) {
+			throw new HttpException(
+				{
+					error: 'Necesitas confirmar tu correo electronico',
+					where: this.service + '::validateUser',
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
 		const token = await this._jwt.sign({
 			data: user,
 			iss: API_URL + '/auth/login',
@@ -41,15 +59,15 @@ export class AuthService {
 	}
 	async resetPassword(payload: Partial<ResetPassowordDTO>) {
 		const user = await this._users.getByUser(payload.email);
-		// if (!user) {
-		//     throw new HttpException(
-		//         {
-		//             error: `Usuario no registrado, se envio el correo a ${payload.email}`,
-		//             where: this.service + '::resetPassword',
-		//         },
-		//         HttpStatus.OK,
-		//     );
-		// }
+		if (!user) {
+			throw new HttpException(
+				{
+					error: `Se envio el correo a ${payload.email} con la contraseña nueva`,
+					where: this.service + '::resetPassword',
+				},
+				HttpStatus.OK,
+			);
+		}
 		return {
 			message: `Usuario no registrado, se envio el correo a ${
 				payload.email
