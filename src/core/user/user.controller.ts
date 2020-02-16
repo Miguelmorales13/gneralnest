@@ -22,12 +22,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 @Controller('users')
 export class UserController {
 	constructor(public service: UserService) { }
-	@Post('photo')
-	@UseInterceptors(
-		FilesInterceptor('photo', 1, generateStorageMulter('images')),
-	)
-	async uploadPhoto(@UploadedFiles() files) {
-		return { yes: files };
-	}
+
+
 
 }

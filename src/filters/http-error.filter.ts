@@ -26,7 +26,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 		const request = ctx.getRequest<Request>();
 		const response = ctx.getResponse<Response>();
 		// implementacion de angular o vue o react
-		if (exception instanceof HttpException && exception.getStatus() == 404)
+		if (!exception instanceof HttpException && exception.getStatus() == 404)
 			return response.sendFile(
 				join(__dirname, '../../public/dist/index.html'),
 			);
