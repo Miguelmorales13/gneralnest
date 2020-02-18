@@ -12,4 +12,9 @@ export class ImagesService extends TypeOrmCrudService<Image>{
 		super(repo)
 	}
 
+
+	getTest() {
+		return this.repo.find({})
+	}
+
 }

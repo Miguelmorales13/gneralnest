@@ -35,7 +35,7 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
 					database: _config.get('TYPEORM_DATABASE'),
 					entities: [__dirname + '/entitys/*.entity{.ts,.js}'],
 					synchronize: _config.get('TYPEORM_SYNCRHONIZE'),
-					logging: ['error', 'info'],
+					logging: ['error', 'info', 'query'],
 					// logger: 'debug', // logger to error  database,
 				} as TypeOrmModuleOptions),
 			inject: [ConfigService],

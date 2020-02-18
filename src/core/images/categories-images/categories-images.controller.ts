@@ -8,7 +8,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 @ApiUseTags('Categories images')
 @Crud({
 	model: {
-		type: CategoryImages
+		type: CategoryImages,
 	}
 })
 @Controller('categories-images')

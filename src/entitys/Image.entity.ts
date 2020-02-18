@@ -33,7 +33,7 @@ export class Image extends Generar {
 	@ManyToOne(
 		(type) => CategoryImages,
 		(category) => category.images,
-		{ cascade: true, nullable: true },
+		{ cascade: true, nullable: true, eager: true },
 	)
 	category: CategoryImages | number;
 

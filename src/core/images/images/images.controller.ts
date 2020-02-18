@@ -1,4 +1,4 @@
-import { Controller, UploadedFiles, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, UploadedFiles, UseInterceptors, HttpException, HttpStatus, Get } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
@@ -13,6 +13,11 @@ import { ApiUseTags, ApiConsumes, ApiImplicitFile } from '@nestjs/swagger';
 	model: {
 		type: Image
 	},
+	routes: {
+		getManyBase: {
+
+		}
+	}
 
 })
 @Controller('images')
@@ -46,5 +51,9 @@ export class ImagesController {
 		}
 		dto.url = files[0] ? files[0].filename : null
 		return this.base.createOneBase(req, dto);
+	}
+	@Get('test')
+	getTest() {
+		return this.service.getTest()
 	}
 }

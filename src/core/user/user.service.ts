@@ -20,6 +20,8 @@ export class UserService extends TypeOrmCrudService<User>{
 	}
 
 	async getByUser(user: string): Promise<User> {
+		// this.repo.update(1,{})
+		// this.repo.delete(id)
 		return await this.repo.findOne({
 			where: `user  = '${user}' OR email = '${user}'`
 		})

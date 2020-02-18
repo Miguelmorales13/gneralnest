@@ -3,30 +3,30 @@ import { ApiModelPropertyOptional, ApiOkResponse, ApiImplicitFile } from '@nestj
 import { IsDate, IsDateString, IsOptional, IsNumber } from 'class-validator';
 import { isNumber } from 'util';
 
-@Exclusion(`"deletedAt" is not null`)
+@Exclusion(`deletedAt = null`)
 export abstract class Generar {
 
 	@ApiModelPropertyOptional({ description: 'user to user DTO' })
 	@PrimaryGeneratedColumn()
-	@IsNumber()
-	@IsOptional({ always: true })
+	// @IsNumber()
+	@IsOptional()
 	id: number;
 
 	@ApiModelPropertyOptional({ description: 'user to user DTO' })
-	@IsDateString()
-	@IsOptional({ always: true })
+	// @IsDateString()
 	@CreateDateColumn()
+	@IsOptional()
 	createdAt: Date;
 
 	@ApiModelPropertyOptional({ description: 'user to user DTO' })
-	@IsDateString()
+	// @IsDateString()
 	@UpdateDateColumn()
-	@IsOptional({ always: true })
+	@IsOptional()
 	updatedAt: Date;
 
 	@ApiModelPropertyOptional({ description: 'user to user DTO' })
-	@IsDateString()
-	@IsOptional({ always: true })
+	// @IsDateString()
+	@IsOptional()
 	@Column({ nullable: true })
 	deletedAt?: Date;
 }
