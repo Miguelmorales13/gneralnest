@@ -4,7 +4,7 @@ import { Model } from 'sequelize-typescript';
 
 
 
-export class SequelizeCrudService<T = any, D = any> implements ICrudService<T, D> {
+export abstract class SequelizeCrudService<T = any, D = any> implements ICrudService<T, D> {
 	constructor(private readonly service: T | any) { }
 
 	async getAll(): Promise<T[]> {
@@ -15,9 +15,8 @@ export class SequelizeCrudService<T = any, D = any> implements ICrudService<T, D
 	}
 
 	async create(item: Partial<D>): Promise<T> {
-
 		let itemCreated = await this.service.create(item)
-		return itemCreated;
+		return this.getOne(itemCreated.id);
 	}
 	async createBulk(item: Partial<D[]>): Promise<T[]> {
 		let itemsCreated = await this.service.bulkCreate(item)

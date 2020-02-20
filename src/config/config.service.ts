@@ -16,7 +16,7 @@ export class ConfigService {
      * @param filePath config default .env
      */
 	constructor(filePath: string) {
-		console.log(filePath);
+		// console.log(filePath);
 
 		const config = dotenv.parse(fs.readFileSync(filePath));
 		this.envConfig = this.validateInput(config);

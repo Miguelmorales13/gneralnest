@@ -1,8 +1,8 @@
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
-import { Request } from 'express';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor, HttpStatus, RequestMethod, Request } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { LoggerService } from '../helpers/logger/logger.service';
+import { messageReposponse } from '../config/constants';
 
 /**
  * Injectable
@@ -21,8 +21,6 @@ export class LoggerInterceptor implements NestInterceptor {
 		call$: CallHandler<any>,
 	): Observable<any> {
 		const req = context.switchToHttp().getRequest<Request>();
-		console.log(req);
-
 		const wheree = context.getClass().name + '::' + context.getHandler().name;
 		const now = Date.now();
 		return call$.handle().pipe(
@@ -49,8 +47,9 @@ export class LoggerInterceptor implements NestInterceptor {
 					),
 					wheree,
 				);
-				return { data: data[0] || null, message: data[1] || 'Operacion exitosa' };
+				return { data: data.data || null, message: messageReposponse(req.method) };
 			}),
 		);
 	}
+
 }

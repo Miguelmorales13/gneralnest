@@ -1,12 +1,13 @@
 import { Body, Post, Put, Delete, Get, Param } from '@nestjs/common';
 import { ICrudService } from './ISequelizeCrudService';
 import { General } from '../entitys/General.entity';
+import { ApiImplicitBody } from '@nestjs/swagger';
 
 
 
 
-export class SequelizeCrudController<T = any, D = any, S extends ICrudService<T, D> = any>{
-	constructor(private readonly service: S) { }
+export abstract class SequelizeCrudController<D>{
+	constructor(private readonly service: any) { }
 
 	@Get()
 	async getAll() {
@@ -19,11 +20,12 @@ export class SequelizeCrudController<T = any, D = any, S extends ICrudService<T,
 		return { data, message: data ? 'No se encontro el registro' : null }
 	}
 	@Post()
-	async create(@Body() user: D) {
+	async create(@Body() user: keyof Partial<D>) {
 		let data = await this.service.create(user)
 		return { data, message: `Creacion exitosa` }
 	}
 	@Put(':id')
+	@ApiImplicitBody({ name: 'aa', type: Object, })
 	async update(@Body() user: D, @Param('id') id: number) {
 		let data = await this.service.update(user, id)
 		return { data, message: `Actualizacion exitosa` }
