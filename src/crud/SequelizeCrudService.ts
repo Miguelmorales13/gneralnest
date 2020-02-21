@@ -1,9 +1,12 @@
-import { Inject } from "@nestjs/common";
 import { ICrudService } from './ISequelizeCrudService';
-import { Model } from 'sequelize-typescript';
 
 
 
+/**
+ * Sequelize crud service
+ * @template T
+ * @template D
+ */
 export abstract class SequelizeCrudService<T = any, D = any> implements ICrudService<T, D> {
 	constructor(private readonly service: T | any) { }
 

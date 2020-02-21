@@ -1,5 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
+
 import { CategoryImagesDTO } from '../categories-images/category-images.dto';
 
 /**

@@ -1,8 +1,9 @@
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor, HttpStatus, RequestMethod, Request } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor, Request } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { LoggerService } from '../helpers/logger/logger.service';
+
 import { messageReposponse } from '../config/constants';
+import { LoggerService } from '../helpers/logger/logger.service';
 
 /**
  * Injectable
@@ -47,7 +48,7 @@ export class LoggerInterceptor implements NestInterceptor {
 					),
 					wheree,
 				);
-				return { data: data.data || null, message: messageReposponse(req.method) };
+				return { data: data || null, message: messageReposponse(req.method) };
 			}),
 		);
 	}

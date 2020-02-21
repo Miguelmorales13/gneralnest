@@ -1,15 +1,17 @@
+import { Column, DataType, Table } from 'sequelize-typescript';
+
 import { General } from './General.entity';
-import { Table, Column, DataType } from 'sequelize-typescript';
 
 /**
  * Entity  rol
  */
 @Table({
 	paranoid: true,
-	timestamps: true
+	timestamps: true,
+	underscored: true
 })
 export class Rol extends General<Rol> {
-	@Column
+	@Column({ type: DataType.STRING(100) })
 	name: string;
 
 	@Column({ type: DataType.JSON })

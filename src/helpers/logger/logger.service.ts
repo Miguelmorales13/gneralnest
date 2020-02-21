@@ -1,9 +1,8 @@
-import { Injectable, Inject, Request } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, Request } from '@nestjs/common';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import * as path from 'path';
-import { Repository } from 'typeorm';
+
 import { ConfigService } from '../../config/config.service';
 import { Logger } from '../../entitys/Logger.entity';
 import { GateLoggerGateway } from './gate-logger.gateway';

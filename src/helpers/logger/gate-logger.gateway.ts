@@ -1,5 +1,11 @@
 import { Logger } from '@nestjs/common';
-import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+	OnGatewayConnection,
+	OnGatewayDisconnect,
+	OnGatewayInit,
+	WebSocketGateway,
+	WebSocketServer,
+} from '@nestjs/websockets';
 import { Client, Server } from 'socket.io';
 
 @WebSocketGateway()

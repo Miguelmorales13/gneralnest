@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SequelizeCrudService } from '../../crud/SequelizeCrudService';
 import { User } from '../../entitys/user.entity';
 import { UserDTO } from './user.dto';
+import { Op } from 'sequelize';
 
 /**
  * Injectable
@@ -17,7 +18,7 @@ export class UserService extends SequelizeCrudService<User, UserDTO> {
 		// this.users.destroy
 		return await this.users.findOne({
 			where: {
-				$or: [
+				[Op.or]: [
 					{ email: user },
 					{ user: user },
 				]

@@ -13,28 +13,28 @@ export class ImagesController {
 	@Get()
 	async getAll() {
 		let data = await this.images.getAll()
-		return { data, message: '' }
+		return data
 	}
 	@Get(':id')
 	async getById(@Param(':id') id: number) {
 		let data = await this.images.getOne(id)
-		return { data, message: data ? 'No se encontro el registro' : null }
+		return data
 	}
 
 	@Post()
 	async create(@Body() image: ImageDTO) {
 		let data = await this.images.create(image)
-		return { data, message: `Creacion exitosa` }
+		return data
 	}
 	@Put(':id')
 	async update(@Body() image: ImageDTO, @Param('id') id: number) {
 		let data = await this.images.update(image, id)
-		return { data, message: `Actualizacion exitosa` }
+		return data
 	}
 	@Delete(':id')
 	async delete(@Param('id') id: number) {
 		let data = await this.images.delete(id)
-		return { data, message: 'Eliminacion exitosa' }
+		return data
 	}
 }
 

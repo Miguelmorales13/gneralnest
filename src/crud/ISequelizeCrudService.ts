@@ -1,3 +1,8 @@
+/**
+ * Icrud service
+ * @template T
+ * @template D 
+ */
 export interface ICrudService<T = any, D = any> {
 	getAll(): Promise<T[]>;
 	getOne(id: number): Promise<T>;

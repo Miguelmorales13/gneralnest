@@ -13,27 +13,27 @@ export class CategoriesController {
 	@Get()
 	async getAll() {
 		let data = await this.categories.getAll()
-		return { data, message: '' }
+		return data
 	}
 	@Get(':id')
 	async getById(@Param(':id') id: number) {
 		let data = await this.categories.getOne(id)
-		return { data, message: data ? 'No se encontro el registro' : null }
+		return data
 	}
 
 	@Post()
 	async create(@Body() category: CategoryImagesDTO) {
 		let data = await this.categories.create(category)
-		return { data, message: `Creacion exitosa` }
+		return data
 	}
 	@Put(':id')
 	async update(@Body() category: CategoryImagesDTO, @Param('id') id: number) {
 		let data = await this.categories.update(category, id)
-		return { data, message: `Actualizacion exitosa` }
+		return data
 	}
 	@Delete(':id')
 	async delete(@Param('id') id: number) {
 		let data = await this.categories.delete(id)
-		return { data, message: 'Eliminacion exitosa' }
+		return data
 	}
 }

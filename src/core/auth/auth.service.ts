@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
 import { API_URL } from '../../config/constants';
 import { EmailsService } from '../../helpers/emails/emails.service';
 import { UserService } from '../user/user.service';

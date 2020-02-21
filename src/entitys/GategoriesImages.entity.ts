@@ -1,4 +1,4 @@
-import { Column, HasMany, Table } from 'sequelize-typescript';
+import { Column, HasMany, Table, DataType } from 'sequelize-typescript';
 
 import { General } from './General.entity';
 import { Image } from './Image.entity';
@@ -8,16 +8,17 @@ import { Image } from './Image.entity';
  */
 @Table({
 	paranoid: true,
-	timestamps: true
+	timestamps: true,
+	underscored: true
 })
 export class CategoryImages extends General<CategoryImages> {
-	@Column
+	@Column({ type: DataType.STRING(100) })
 	name?: string;
 
-	@Column
+	@Column({ type: DataType.STRING(200) })
 	description?: string;
 
-	@Column
+	@Column({ defaultValue: false })
 	isSystem?: boolean;
 
 	@HasMany(() => Image)

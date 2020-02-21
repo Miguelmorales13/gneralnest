@@ -8,7 +8,8 @@ import { General } from './General.entity';
  */
 @Table({
 	paranoid: true,
-	timestamps: true
+	timestamps: true,
+	underscored: true
 })
 export class Image extends General<Image> {
 	@Column

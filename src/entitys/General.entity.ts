@@ -1,19 +1,19 @@
+import { Column, CreatedAt, DeletedAt, Model, UpdatedAt } from 'sequelize-typescript';
 
-import { PrimaryKey, CreatedAt, UpdatedAt, DeletedAt, Model, Column, DataType, IsUUID } from 'sequelize-typescript';
 
 export class General<T> extends Model<T> {
 	@Column({ autoIncrement: true, primaryKey: true })
 	id?: number;
 
 	@CreatedAt
-	@Column
+	@Column({ field: 'created_at' })
 	createdAt?: Date;
 
 	@UpdatedAt
-	@Column
+	@Column({ field: 'updated_at' })
 	updatedAt?: Date;
 
 	@DeletedAt
-	@Column
+	@Column({ field: 'deleted_at' })
 	deletedAt?: Date;
 }

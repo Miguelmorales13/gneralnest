@@ -1,10 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 
+import { SequelizeCrudService } from '../../../crud/SequelizeCrudService';
 import { CategoryImages } from '../../../entitys/GategoriesImages.entity';
 import { CategoryImagesDTO } from './category-images.dto';
-import { SequelizeCrudService } from '../../../crud/SequelizeCrudService';
 
 @Injectable()
 export class CategoriesImagesService extends SequelizeCrudService<CategoryImages, CategoryImagesDTO>{

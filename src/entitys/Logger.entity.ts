@@ -1,4 +1,4 @@
-import { BeforeCreate, Column, Table, DataType } from 'sequelize-typescript';
+import { BeforeCreate, Column, DataType, Table } from 'sequelize-typescript';
 
 import { General } from './General.entity';
 
@@ -7,7 +7,8 @@ import { General } from './General.entity';
  */
 @Table({
 	paranoid: true,
-	timestamps: true
+	timestamps: true,
+	underscored: true
 })
 export class Logger extends General<Logger> {
 	@Column
