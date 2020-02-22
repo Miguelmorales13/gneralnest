@@ -19,10 +19,11 @@ export class UserService extends SequelizeCrudService<User, UserDTO> {
 		return await this.users.findOne({
 			where: {
 				[Op.or]: [
+
 					{ email: user },
 					{ user: user },
 				]
 			}
 		})
-	}
+	} z
 }

@@ -1,4 +1,4 @@
-import { Column, HasMany, Table, DataType } from 'sequelize-typescript';
+import { Column, HasMany, Table, DataType, NotNull } from 'sequelize-typescript';
 
 import { General } from './General.entity';
 import { Image } from './Image.entity';
@@ -12,13 +12,13 @@ import { Image } from './Image.entity';
 	underscored: true
 })
 export class CategoryImages extends General<CategoryImages> {
-	@Column({ type: DataType.STRING(100) })
+	@Column({ type: DataType.STRING(100), allowNull: false })
 	name?: string;
 
-	@Column({ type: DataType.STRING(200) })
+	@Column({ type: DataType.STRING(200), allowNull: true })
 	description?: string;
 
-	@Column({ defaultValue: false })
+	@Column({ defaultValue: false, allowNull: false })
 	isSystem?: boolean;
 
 	@HasMany(() => Image)

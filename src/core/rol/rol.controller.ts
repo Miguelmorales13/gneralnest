@@ -21,7 +21,7 @@ export class RolController {
 		return data
 	}
 	@Get(':id')
-	async getById(@Param(':id') id: number) {
+	async getById(@Param('id') id: number) {
 		let data = await this.rols.getOne(id)
 		return data
 	}

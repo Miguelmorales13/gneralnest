@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors, UploadedFiles, HttpException, HttpStatus } from '@nestjs/common';
+import { ApiUseTags, ApiConsumes } from '@nestjs/swagger';
 
 import { ImageDTO } from './image.dto';
 import { ImagesService } from './images.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { generateStorageMulter } from '../../../config/constants';
 
 
 @ApiUseTags('Images')
@@ -16,13 +18,28 @@ export class ImagesController {
 		return data
 	}
 	@Get(':id')
-	async getById(@Param(':id') id: number) {
+	async getById(@Param('id') id: number) {
 		let data = await this.images.getOne(id)
 		return data
 	}
 
 	@Post()
-	async create(@Body() image: ImageDTO) {
+	@ApiConsumes('multipart/form-data')
+	// @ApiImplicitFile({ description: '', name: 'image' })
+	@UseInterceptors(
+		FilesInterceptor('url', 1, generateStorageMulter('images')),
+	)
+	async create(@Body() image: ImageDTO, @UploadedFiles() files) {
+		if (!files[0]) {
+			throw new HttpException(
+				{
+					error: 'La imagen es requerida',
+					where: 'UsersService::createOne',
+				},
+				HttpStatus.BAD_REQUEST,
+			);
+		}
+		image.url = files[0] ? files[0].filename : null
 		let data = await this.images.create(image)
 		return data
 	}

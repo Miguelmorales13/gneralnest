@@ -25,7 +25,7 @@ export class UserDTO {
 
 	@ApiModelProperty({ description: 'lastname to user DTO' })
 	@IsString({ message: 'el apellido es requerido' })
-	lastname?: string;
+	lastName?: string;
 
 	// @ApiModelProperty({description:'rol to user DTO'})
 	// @IsNotEmpty({ message: 'El acceso es requerido' })

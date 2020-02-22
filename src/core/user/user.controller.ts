@@ -20,7 +20,7 @@ export class UserController {
 		return data
 	}
 	@Get(':id')
-	async getById(@Param(':id') id: number) {
+	async getById(@Param('id') id: number) {
 		let data = await this.users.getOne(id)
 		return data
 	}

@@ -16,7 +16,7 @@ export class CategoriesController {
 		return data
 	}
 	@Get(':id')
-	async getById(@Param(':id') id: number) {
+	async getById(@Param('id') id: number) {
 		let data = await this.categories.getOne(id)
 		return data
 	}

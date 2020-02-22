@@ -11,10 +11,10 @@ import { General } from './General.entity';
 	underscored: true
 })
 export class Rol extends General<Rol> {
-	@Column({ type: DataType.STRING(100) })
+	@Column({ type: DataType.STRING(100), allowNull: false })
 	name: string;
 
-	@Column({ type: DataType.JSON })
+	@Column({ type: DataType.JSON, allowNull: false })
 	access: RolAccess;
 
 	// @OneToMany((type) => UserEntity, (user) => user.rol)
