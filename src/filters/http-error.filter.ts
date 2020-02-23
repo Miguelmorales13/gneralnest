@@ -30,11 +30,9 @@ export class HttpErrorFilter implements ExceptionFilter {
 		// 	return response.sendFile(
 		// 		join(__dirname, '../../public/dist/index.html'),
 		// 	);
+		console.log(exception);
 
-		const status =
-			exception instanceof HttpException
-				? exception.getStatus()
-				: HttpStatus.INTERNAL_SERVER_ERROR;
+		const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
 		const wheree: string = exception.message.where || 'SERVER';
 		const errorResponce = {

@@ -17,10 +17,7 @@ export class LoggerInterceptor implements NestInterceptor {
      * @returns intercept call$
      */
 	constructor(private readonly _logger: LoggerService) { }
-	intercept(
-		context: ExecutionContext,
-		call$: CallHandler<any>,
-	): Observable<any> {
+	intercept(context: ExecutionContext, call$: CallHandler<any>, ): Observable<any> {
 		const req = context.switchToHttp().getRequest<Request>();
 		const wheree = context.getClass().name + '::' + context.getHandler().name;
 		const now = Date.now();

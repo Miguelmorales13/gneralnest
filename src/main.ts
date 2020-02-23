@@ -12,7 +12,7 @@ async function bootstrap() {
 		cors: true,
 	});
 	app.enableCors();
-	const options = new DocumentBuilder()
+	const options = new DocumentBuilder().addBearerAuth()
 		.setTitle('general')
 		.setDescription('The general API description')
 		.setVersion('1.0')

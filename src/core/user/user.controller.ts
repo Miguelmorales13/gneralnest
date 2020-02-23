@@ -1,21 +1,25 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req, Request } from '@nestjs/common';
 import { ApiConsumes, ApiUseTags } from '@nestjs/swagger';
 
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
+import { AuthGuard } from '@nestjs/passport';
 
 /**
  * Controller users
  */
-// @UseGuards(AuthGuard('jwt'))
 @ApiUseTags('Users')
 @Controller('users')
 export class UserController {
 	constructor(private readonly users: UserService) { }
 
+	@UseGuards(AuthGuard('jwt'))
 	@Get()
 	@ApiConsumes('cosas')
 	async getAll() {
+		// async getAll(@Req() req: Request) {
+		// console.log(req.user);
+
 		let data = await this.users.getAll()
 		return data
 	}

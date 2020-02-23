@@ -1,11 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { API_URL } from '../../config/constants';
+import { API_URL, generatePassword } from '../../config/constants';
 import { EmailsService } from '../../helpers/emails/emails.service';
 import { UserService } from '../user/user.service';
 import { AuthDTO } from './auth.dto';
-import { ResetPassowordDTO } from './resetPassword.dto';
+import * as bcrypt from 'bcrypt';
+import { ResetPassowordDTO } from './reset-password.dto';
+import { RecoveryPassowordDTO } from './recovery-password.dto';
 
 /**
  * Injectable
@@ -19,17 +21,32 @@ export class AuthService {
 		private readonly _email: EmailsService,
 	) { }
 
-	async validateUser({ user }: any) {
-		return await this._users.getByUser(user.user);
+	async validateUser({ data }: any) {
+		console.log(data);
+
+		return await this._users.getByUser(data.email);
 	}
 
 	async login(payload: Partial<AuthDTO>) {
+		// console.log(payload);
+
 		const user = await this._users.getByUser(payload.user);
+		console.log(user);
+
 		if (!user || !(await user.comparePassword(payload.password))) {
 			throw new HttpException(
 				{
 					error: 'Credenciales invalidas',
 					where: this.service + '::validateUser',
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		if (!user.active) {
+			throw new HttpException(
+				{
+					error: 'Usuario dado de baja',
+					where: this.service + '::login',
 				},
 				HttpStatus.UNAUTHORIZED,
 			);
@@ -40,21 +57,43 @@ export class AuthService {
 		});
 		return { token, user };
 	}
-	async resetPassword(payload: Partial<ResetPassowordDTO>) {
+	async recoveryPassword(payload: Partial<RecoveryPassowordDTO>) {
 		const user = await this._users.getByUser(payload.email);
-		// if (!user) {
-		//     throw new HttpException(
-		//         {
-		//             error: `Usuario no registrado, se envio el correo a ${payload.email}`,
-		//             where: this.service + '::resetPassword',
-		//         },
-		//         HttpStatus.OK,
-		//     );
-		// }
-		return {
-			message: `Usuario no registrado, se envio el correo a ${
-				payload.email
-				}`,
-		};
+		if (user) {
+			let newPassword = await generatePassword(6)
+			const password = await bcrypt.hashSync(newPassword, 10);
+			await this._users.update({ password }, user.id);
+			const token = await this._jwt.signAsync({
+				data: user,
+			});
+			await this._email.sendMail(
+				process.env.EMAIL_USER,
+				payload.email,
+				'Recuperar contraseña - plataforma de "Hoteles"',
+				'text',
+				await this._email.generateTemplate<any>('recovery-password', {
+					newPassword,
+					email: payload.email,
+					token,
+				}),
+			);
+
+		}
+		return user;
+	}
+	async cahngePassword(payload: Partial<ResetPassowordDTO>, id: number) {
+		const user = await this._users.getOne(id);
+		if (!user) {
+			throw new HttpException('Usuario no encontrado', HttpStatus.BAD_REQUEST);
+		}
+		if (!await user.comparePassword(payload.oldPassword)) {
+			throw new HttpException('La contraseña anterior no coinside', HttpStatus.BAD_REQUEST);
+		}
+		if (payload.newPassword != payload.repitNewPassword) {
+			throw new HttpException('La contraseñas no coinsiden', HttpStatus.BAD_REQUEST);
+		}
+		const password = await bcrypt.hashSync(payload.newPassword, 10);
+		await this._users.update({ password }, user.id);
+		return user;
 	}
 }

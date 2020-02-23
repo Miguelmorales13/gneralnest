@@ -19,19 +19,26 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 	}
 
 	async validate(payload: any) {
-		const user = await this._auth.validateUser(payload);
-		if (this._config.get('NODE_ENV') === 'development') {
-			return { done: true };
-		}
-		if (!user) {
+		if (!payload || !payload.data || !payload.data.email) {
 			throw new HttpException(
 				{
-					error: 'Credenciales invalidas',
+					error: 'Sin autorizacion',
 					where: 'AuthStrategy::validate',
 				},
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
-		return { ...user };
+		const user = await this._auth.validateUser(payload);
+
+		if (!user) {
+			throw new HttpException(
+				{
+					error: 'Sin autorizacion',
+					where: 'AuthStrategy::validate',
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		return payload.data;
 	}
 }

@@ -51,10 +51,12 @@ export class User extends General<User> {
 	@BeforeCreate
 	static async setPassword(instance: User) {
 		instance.user = instance.user ? instance.user : instance.name.slice(0, 3) + instance.lastName.slice(0, 3) + generatePassword(3);
+
 		instance.password = await bcrypt.hashSync(instance.password, 10);
 	}
 
 	async comparePassword(compare: string) {
+		console.log(compare, this.password);
 		return await bcrypt.compareSync(compare, this.password);
 	}
 }
