@@ -1,7 +1,16 @@
-import { ArgumentsHost, BadGatewayException, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, NotFoundException } from '@nestjs/common';
+import {
+	ArgumentsHost,
+	BadGatewayException,
+	Catch,
+	ExceptionFilter,
+	HttpException,
+	HttpStatus,
+	Logger,
+	NotFoundException,
+} from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
-import { join } from 'path';
+
 import { LoggerService } from '../helpers/logger/logger.service';
 
 /**
@@ -30,7 +39,6 @@ export class HttpErrorFilter implements ExceptionFilter {
 		// 	return response.sendFile(
 		// 		join(__dirname, '../../public/dist/index.html'),
 		// 	);
-		console.log(exception);
 
 		const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Request } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import * as path from 'path';
@@ -6,6 +6,7 @@ import * as path from 'path';
 import { ConfigService } from '../../config/config.service';
 import { Logger } from '../../entitys/Logger.entity';
 import { GateLoggerGateway } from './gate-logger.gateway';
+import { Request } from 'express';
 
 @Injectable()
 export class LoggerService {
