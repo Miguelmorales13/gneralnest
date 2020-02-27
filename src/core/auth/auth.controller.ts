@@ -21,12 +21,11 @@ export class AuthController {
 		return this._auth.recoveryPassword(recovery);
 	}
 
-	@ApiBearerAuth()
 	@UseGuards(AuthGuard('jwt'))
-	@Post('change-password/:id')
-	async resetPassword(@Body() reset: ResetPassowordDTO, @Param('id') id: number, @Req() req) {
+	@Post('change-password')
+	async resetPassword(@Body() reset: ResetPassowordDTO, @Req() req) {
 		console.log(req);
 
-		return this._auth.cahngePassword(reset, id);
+		return this._auth.cahngePassword(reset, req.user.id);
 	}
 }
