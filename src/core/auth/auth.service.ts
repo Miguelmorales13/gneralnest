@@ -28,10 +28,7 @@ export class AuthService {
 	}
 
 	async login(payload: Partial<AuthDTO>) {
-		// console.log(payload);
-
-		const user = await this._users.getByUser(payload.user);
-		console.log(user);
+		let user = await this._users.getByUser(payload.user);
 
 		if (!user || !(await user.comparePassword(payload.password))) {
 			throw new HttpException(
@@ -42,6 +39,17 @@ export class AuthService {
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
+		let userLogged = {
+			id: user.id,
+			createdAt: user.createdAt,
+			updatedAt: user.updatedAt,
+			name: user.name,
+			email: user.email,
+			user: user.user,
+			lastName: user.lastName,
+			rolId: user.rolId,
+			rol: user.rol || null,
+		}
 		if (!user.active) {
 			throw new HttpException(
 				{
@@ -51,14 +59,16 @@ export class AuthService {
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
+
 		const token = await this._jwt.sign({
-			data: user,
+			data: userLogged,
 			iss: API_URL + '/auth/login',
 		});
-		return { token, user };
+		return { token, user: userLogged };
 	}
 	async recoveryPassword(payload: Partial<RecoveryPassowordDTO>) {
 		const user = await this._users.getByUser(payload.email);
+		let userLogged
 		if (user) {
 			let newPassword = await generatePassword(6)
 			const password = await bcrypt.hashSync(newPassword, 10);
@@ -77,14 +87,25 @@ export class AuthService {
 					token,
 				}),
 			);
+			userLogged = {
+				id: user.id,
+				createdAt: user.createdAt,
+				updatedAt: user.updatedAt,
+				name: user.name,
+				email: user.email,
+				user: user.user,
+				lastName: user.lastName,
+				rolId: user.rolId,
+				rol: user.rol || null,
+			}
 
 		}
-		return user;
+		return userLogged || null;
 	}
 	async cahngePassword(payload: Partial<ResetPassowordDTO>, id: number) {
 		const user = await this._users.getOne(id);
 		if (!user) {
-			throw new HttpException('Usuario no encontrado', HttpStatus.BAD_REQUEST);
+			throw new HttpException('Usuario no registrado', HttpStatus.BAD_REQUEST);
 		}
 		if (!await user.comparePassword(payload.oldPassword)) {
 			throw new HttpException('La contraseña anterior no coinside', HttpStatus.BAD_REQUEST);
@@ -94,6 +115,17 @@ export class AuthService {
 		}
 		const password = await bcrypt.hashSync(payload.newPassword, 10);
 		await this._users.update({ password }, user.id);
-		return user;
+		let userLogged = {
+			id: user.id,
+			createdAt: user.createdAt,
+			updatedAt: user.updatedAt,
+			name: user.name,
+			email: user.email,
+			user: user.user,
+			lastName: user.lastName,
+			rolId: user.rolId,
+			rol: user.rol || null,
+		}
+		return userLogged;
 	}
 }

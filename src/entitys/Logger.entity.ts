@@ -1,4 +1,4 @@
-import { BeforeCreate, Column, DataType, Table } from 'sequelize-typescript';
+import { BeforeCreate, Column, DataType, Table, AfterFind } from 'sequelize-typescript';
 
 import { General } from './General.entity';
 

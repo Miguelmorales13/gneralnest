@@ -1,4 +1,5 @@
 import { ICrudService } from './ISequelizeCrudService';
+import { FindOptions } from 'sequelize';
 
 
 
@@ -10,13 +11,12 @@ import { ICrudService } from './ISequelizeCrudService';
 export abstract class SequelizeCrudService<T = any, D = any> implements ICrudService<T, D> {
 	constructor(private readonly service: T | any) { }
 
-	async getAll(): Promise<T[]> {
-		return await this.service.findAll()
+	async getAll(options?: FindOptions): Promise<T[]> {
+		return await this.service.findAll(options || null)
 	}
-	async getOne(id: number): Promise<T> {
-		return await this.service.findByPk(id)
+	async getOne(id: number, options?: FindOptions): Promise<T> {
+		return await this.service.findByPk(id, options)
 	}
-
 	async create(item: Partial<D>): Promise<T> {
 		let itemCreated = await this.service.create(item)
 		return this.getOne(itemCreated.id);

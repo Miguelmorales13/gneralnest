@@ -19,7 +19,7 @@ export class UserDTO {
 	@IsString({ message: 'El correo es requerido' })
 	email?: string;
 
-	@ApiModelProperty({ description: 'password to user DTO' })
+	// @ApiModelProperty({ description: 'password to user DTO' })
 	// @IsString({ message: 'Contraseña requerida' })
 	password?: string;
 
