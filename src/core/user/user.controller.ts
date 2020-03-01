@@ -10,16 +10,14 @@ import { AuthGuard } from '@nestjs/passport';
  */
 @ApiUseTags('Users')
 @Controller('users')
+@UseGuards(AuthGuard('jwt'))
 export class UserController {
 	attributes = ['id', 'name', 'lastName', 'createdAt', 'updatedAt', 'rolId', 'user', 'email', 'active']
 	constructor(private readonly users: UserService) { }
 
-	// @UseGuards(AuthGuard('jwt'))
 	@Get()
-	@ApiConsumes('cosas')
 	async getAll() {
 		// async getAll(@Req() req: Request) {
-		// console.log(req.user);
 
 		let data = await this.users.getAll({ attributes: this.attributes })
 		return data
