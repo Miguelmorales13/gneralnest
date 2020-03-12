@@ -1,9 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor, Request } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import * as i18n from "i18n";
 
-import { messageReposponse } from '../config/constants';
 import { LoggerService } from '../helpers/logger/logger.service';
+import { Request } from 'express';
 
 /**
  * Injectable
@@ -35,6 +36,8 @@ export class LoggerInterceptor implements NestInterceptor {
 				);
 			}),
 			map(async (data) => {
+				const lang: any = req.headers['accept-language'] || process.env.LANG_DEFAULT;
+
 				Logger.log(
 					await this._logger.addLoggerInterceptor(
 						req,
@@ -45,7 +48,12 @@ export class LoggerInterceptor implements NestInterceptor {
 					),
 					wheree,
 				);
-				return { data: data || null, message: messageReposponse(req.method) };
+				let message = i18n.__({
+					locale: lang,
+					phrase: `petitions.${req.method}`
+				}, `petitions.${req.method}`)
+
+				return { data: data || null, message: message };
 			}),
 		);
 	}

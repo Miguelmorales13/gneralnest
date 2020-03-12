@@ -3,14 +3,14 @@ import { IsEmail, IsString } from 'class-validator';
 
 export class ResetPassowordDTO {
 	@ApiModelProperty({ description: 'Password', type: 'string', })
-	@IsString({ message: 'La anterio contraseña es requerida' })
+	@IsString({ message: 'auth.before_password_required' })
 	oldPassword?: string;
 
 	@ApiModelProperty({ description: 'Password', type: 'string', })
-	@IsString({ message: 'La nueva contraseña es requerida' })
+	@IsString({ message: 'auth.new_password_required' })
 	newPassword?: string;
 
 	@ApiModelProperty({ description: 'Password', type: 'string', })
-	@IsString({ message: 'La repeticion de la nueva contraseña es requerida' })
+	@IsString({ message: 'auth.repit_new_password_required' })
 	repitNewPassword?: string;
 }

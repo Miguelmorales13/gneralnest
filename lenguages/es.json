@@ -1,0 +1,30 @@
+{
+	"petitions": {
+		"GET": "Peticion exitosa",
+		"POST": "Creacion exitosa",
+		"PUT": "Actualizacion exitosa",
+		"DELETE": "Eliminacion exitosa"
+	},
+	"validations": {
+		"general": {
+			"empty_request": "La peticion esta vacia"
+		},
+		"users": {
+			"name_required": "El nombre es requerido",
+			"email_required": "El correo electronico es requerido",
+			"format_invalid_email": "El formato del correo no es valido",
+			"last_name_required": "los apellos son requeridos"
+		},
+		"auth": {
+			"before_password_required": "La contraseña anterior es requerida",
+			"new_password_required": "La nueva contraseña es requerida",
+			"repit_new_password_required": "La repeticion de la nueva contraseña es requerida",
+			"user_required": "El usuario es requerido",
+			"password_required": "La contraseña es requerida",
+			"format_invalid_email": "El formato del correo no es valido"
+		}
+	},
+	"errors": {
+		"not_found": "Problemas en el servidor"
+	}
+}

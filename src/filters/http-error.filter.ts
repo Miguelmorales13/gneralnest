@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
+import * as  i18n from "i18n";
 
 import { LoggerService } from '../helpers/logger/logger.service';
 
@@ -39,6 +40,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 		// 	return response.sendFile(
 		// 		join(__dirname, '../../public/dist/index.html'),
 		// 	);
+		const lang: any = request.headers['accept-language'] || process.env.LANG_DEFAULT;
 
 		const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -48,7 +50,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 			timestamps: new Date().toLocaleDateString(),
 			path: request.url,
 			method: request.method,
-			message: exception.message.error || exception.message || null,
+			message: await this.getMessage(exception.message, lang),
 		};
 		Logger.error(
 			await this._logger.addLoggerInterceptor(
@@ -63,5 +65,30 @@ export class HttpErrorFilter implements ExceptionFilter {
 		);
 
 		response.status(status).json(errorResponce);
+	}
+	async getMessage(error: any, lang: string) {
+		if (error && error.error) {
+			return await this.traslateMessage(error.error, lang)
+		} else if (error) {
+			return await this.traslateMessage(error, lang)
+		} else {
+			return null
+		}
+	}
+	async traslateMessage(message: Array<string> | string, lang: string) {
+
+		if (message instanceof Array) {
+			return message.map(messageInArray => {
+				return i18n.__({
+					locale: lang,
+					phrase: messageInArray
+				}, messageInArray)
+			}).join(', ')
+		} else {
+			return i18n.__({
+				locale: lang,
+				phrase: message
+			}, message)
+		}
 	}
 }

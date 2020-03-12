@@ -4,10 +4,10 @@ import { IsString } from 'class-validator';
 export class AuthDTO {
 
 	@ApiModelProperty({ description: 'user to login', type: 'string' })
-	@IsString({ message: 'El usuario es requerido' })
+	@IsString({ message: 'auth.user_required' })
 	user?: string;
 
-	@ApiModelProperty({ description: 'passowr to login', type: 'string' })
-	@IsString({ message: 'La contraseña es requerida' })
+	@ApiModelProperty({ description: 'password to login', type: 'string' })
+	@IsString({ message: 'auth.password_required' })
 	password?: string;
 }

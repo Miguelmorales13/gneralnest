@@ -40,6 +40,7 @@ export class ConfigService {
 			SEQUELIZE_USERNAME: Joi.string().required(),
 			SEQUELIZE_PASSWORD: Joi.string().default(''),
 			SEQUELIZE_DATABASE: Joi.string().required(),
+			LANG_DEFAULT: Joi.string().required(),
 			MULTER_DEST: Joi.string().required(),
 			HTTP_TIMEOUT: Joi.number().default(5000),
 			HTTP_MAX_REDIRECTS: Joi.number().default(5),

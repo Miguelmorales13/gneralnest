@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
  */
 @ApiUseTags('Users')
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 export class UserController {
 	attributes = ['id', 'name', 'lastName', 'createdAt', 'updatedAt', 'rolId', 'user', 'email', 'active']
 	constructor(private readonly users: UserService) { }

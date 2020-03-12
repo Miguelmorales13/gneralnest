@@ -41,13 +41,9 @@ export enum Methods {
 	POST = "POST",
 	PATCH = "PATCH",
 }
-export const messageReposponse = (type: string) => {
-	switch (type) {
-		case Methods.GET: return "Peticion exitosa"
-		case Methods.DELETE: return "Eliminación exitosa"
-		case Methods.PUT: return "Actualización exitosa"
-		case Methods.POST: return "Creación exitosa"
-		case Methods.PATCH: return "Remplazo exitoso"
-		default: return ''
-	}
-}
+// export const messageReposponse = (type: string) => {
+// 	switch (type) {
+// 		case Methods.GET: return `petitions.${Methods.GET}`
+// 		default: return ''
+// 	}
+// }

@@ -1,0 +1,30 @@
+{
+	"petitions": {
+		"GET": "Successful petition",
+		"POST": "Successful creation",
+		"PUT": "Successful update",
+		"DELETE": "Successful removal"
+	},
+	"validations": {
+		"general": {
+			"empty_request": "The request is empty"
+		},
+		"users": {
+			"name_required": "The name is required",
+			"email_required": "Email is required",
+			"format_invalid_email": "The email format is not valid",
+			"last_name_required": "Appeals are required"
+		},
+		"auth": {
+			"before_password_required": "The old password is required",
+			"new_password_required": "The new password is required",
+			"repit_new_password_required": "Repetition of the new password is required",
+			"user_required": "The user is required",
+			"password_required": "Password is required",
+			"format_invalid_email": "The email format is not valid"
+		}
+	},
+	"errors": {
+		"not_found": "Server problems"
+	}
+}

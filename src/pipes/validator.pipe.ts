@@ -6,7 +6,7 @@ import { validate } from 'class-validator';
 export class ValidatorPipe implements PipeTransform<any> {
 	async transform(value: any, { metatype }: ArgumentMetadata) {
 		if (value instanceof Object && this.isEmpty(value)) {
-			throw new HttpException('Peticion vacia', HttpStatus.BAD_REQUEST);
+			throw new HttpException('validations.general.empty_request', HttpStatus.BAD_REQUEST);
 		}
 		if (!metatype || !this.toValidate(metatype)) {
 			return value;
@@ -15,7 +15,7 @@ export class ValidatorPipe implements PipeTransform<any> {
 		const errors = await validate(object);
 		if (errors.length > 0) {
 			throw new HttpException(
-				`Verifica tus campos:  ${this.formatError(errors)} `,
+				this.formatError(errors),
 				HttpStatus.BAD_REQUEST,
 			);
 		}
@@ -35,10 +35,10 @@ export class ValidatorPipe implements PipeTransform<any> {
 			.map((e) => {
 				// tslint:disable-next-line: forin
 				for (const key in e.constraints) {
-					return e.constraints[key];
+					return `validations.${e.constraints[key]}`;
 				}
 			})
-			.join(', ');
+		// .join(', ');
 	}
 	private isEmpty(value: any) {
 		return Object.keys(value).length > 0 ? false : true;

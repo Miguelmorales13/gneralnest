@@ -3,7 +3,7 @@ import { IsEmail, IsString } from 'class-validator';
 
 export class RecoveryPassowordDTO {
 	@ApiModelProperty({ description: 'Email to reset password', type: 'string', })
-	@IsString({ message: 'El usuario es requerido' })
-	@IsEmail({}, { message: 'El formato del correo no es valido' })
+	@IsString({ message: 'auth.user_required' })
+	@IsEmail({}, { message: 'auth.format_invalid_email' })
 	email?: string;
 }

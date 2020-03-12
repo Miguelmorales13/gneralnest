@@ -7,7 +7,7 @@ import { IsEmail, IsString } from 'class-validator';
 export class UserDTO {
 	id?: number
 	@ApiModelProperty({ description: 'name to user DTO' })
-	@IsString({ message: 'El nombre es una cadena' })
+	@IsString({ message: 'users.name_required' })
 	name?: string;
 
 	@ApiModelProperty({ description: 'user to user DTO' })
@@ -15,8 +15,8 @@ export class UserDTO {
 	user?: string;
 
 	@ApiModelProperty({ description: 'email to user DTO' })
-	@IsEmail({}, { message: 'Verifica que tu correo sea valido' })
-	@IsString({ message: 'El correo es requerido' })
+	@IsString({ message: 'users.email_required' })
+	@IsEmail({}, { message: 'users.format_invalid_email' })
 	email?: string;
 
 	// @ApiModelProperty({ description: 'password to user DTO' })
@@ -24,7 +24,7 @@ export class UserDTO {
 	password?: string;
 
 	@ApiModelProperty({ description: 'lastname to user DTO' })
-	@IsString({ message: 'el apellido es requerido' })
+	@IsString({ message: 'users.last_name_required' })
 	lastName?: string;
 
 	// @ApiModelProperty({description:'rol to user DTO'})

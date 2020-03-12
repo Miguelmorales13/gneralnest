@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as express from 'express';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { AppModule } from './app.module';
 import { ValidatorPipe } from './pipes/validator.pipe';
+import * as i18n from "i18n";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -12,7 +13,7 @@ async function bootstrap() {
 		cors: true,
 	});
 	app.enableCors();
-	const options = new DocumentBuilder().addBearerAuth()
+	const options = new DocumentBuilder().addOAuth2().addBearerAuth()
 		.setTitle('general')
 		.setDescription('The general API description')
 		.setVersion('1.0')
@@ -20,6 +21,12 @@ async function bootstrap() {
 		.setBasePath('/api/')
 		.build();
 	app.use(compression());
+	i18n.configure({
+		locales: ['en', 'es'],
+		directory: resolve(__dirname, '..', 'lenguages'),
+		objectNotation: true,
+		updateFiles: false,
+	})
 	app.setGlobalPrefix('api');
 	const document = SwaggerModule.createDocument(app, options);
 	app.use(express.static(join(__dirname, '../public/dist/')));
