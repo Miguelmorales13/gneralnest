@@ -4,9 +4,20 @@ import { join } from 'path';
 import { renderFile } from 'pug';
 import { ConfigService } from '../../config/config.service';
 
+/**
+ * Emails service
+ */
 @Injectable()
 export class EmailsService {
+	/**
+	 * Transporter  of emails service
+	 */
 	private transporter: Transporter;
+
+	/**
+	 * Creates an instance of emails service.
+	 * @param _config
+	 */
 	constructor(private readonly _config: ConfigService) {
 		let user: any = _config.get('EMAIL_TEST')
 			? createTestAccount()
@@ -22,6 +33,15 @@ export class EmailsService {
 		});
 	}
 
+	/**
+	 * Sends mail
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param text
+	 * @param html
+	 * @returns mail
+	 */
 	async sendMail(
 		from: string,
 		to: string,
@@ -37,6 +57,13 @@ export class EmailsService {
 			html,
 		});
 	}
+	/**
+	 * Generates template
+	 * @template T
+	 * @param template
+	 * @param object
+	 * @returns template
+	 */
 	async generateTemplate<T>(template: string, object: T): Promise<string> {
 		if (this._config.get('NODE_ENV') == 'production') {
 			return renderFile(join(__dirname, `../../../src/helpers/emails/templates/${template}.email.pug`), { ...object })

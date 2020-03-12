@@ -3,10 +3,16 @@ import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 
+/**
+ * Env config
+ */
 export interface EnvConfig {
 	[key: string]: string;
 }
 
+/**
+ * Config service
+ */
 @Injectable()
 export class ConfigService {
 	private readonly envConfig: EnvConfig;

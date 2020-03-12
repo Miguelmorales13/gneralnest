@@ -21,6 +21,11 @@ export class UserService extends SequelizeCrudService<User, UserDTO> {
 	) {
 		super(users)
 	}
+	/**
+	 * Gets by user
+	 * @param user
+	 * @returns by user
+	 */
 	async getByUser(user: string): Promise<User> {
 		// this.users.destroy
 		return await this.users.findOne({
@@ -32,6 +37,11 @@ export class UserService extends SequelizeCrudService<User, UserDTO> {
 			}
 		})
 	}
+	/**
+	 * Creates user service
+	 * @param user
+	 * @returns create
+	 */
 	async create(user: Partial<UserDTO>): Promise<User> {
 		let password = await generatePassword(8)
 		let userName = user.user ? user.user : user.name.slice(0, 3) + user.lastName.slice(0, 3) + generatePassword(3);

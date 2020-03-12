@@ -7,20 +7,39 @@ import { RecoveryPassowordDTO } from './recovery-password.dto';
 import { ResetPassowordDTO } from './reset-password.dto';
 import { AuthGuard } from '@nestjs/passport';
 
+/**
+ * Auth controller
+ */
 @ApiUseTags('Auth')
 @Controller('auth')
 export class AuthController {
 	constructor(private _auth: AuthService) { }
 
+	/**
+	 * Logins auth controller
+	 * @param user
+	 * @returns
+	 */
 	@Post('login')
 	async login(@Body() user: AuthDTO) {
 		return this._auth.login(user);
 	}
+	/**
+	 * Recoverys password
+	 * @param recovery
+	 * @returns
+	 */
 	@Post('recovery-password')
 	async recoveryPassword(@Body() recovery: RecoveryPassowordDTO) {
 		return this._auth.recoveryPassword(recovery);
 	}
 
+	/**
+	 * Resets password
+	 * @param reset
+	 * @param req
+	 * @returns
+	 */
 	@UseGuards(AuthGuard('jwt'))
 	@Post('change-password')
 	async resetPassword(@Body() reset: ResetPassowordDTO, @Req() req) {

@@ -5,6 +5,9 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '../../config/config.service';
 import { AuthService } from './auth.service';
 
+/**
+ * Jwt strategy
+ */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	constructor(
@@ -18,6 +21,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		});
 	}
 
+	/**
+	 * Validates jwt strategy
+	 * @param payload
+	 * @returns
+	 */
 	async validate(payload: any) {
 		if (!payload || !payload.data || !payload.data.email) {
 			throw new HttpException(

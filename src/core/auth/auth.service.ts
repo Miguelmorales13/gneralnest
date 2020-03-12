@@ -10,7 +10,7 @@ import { ResetPassowordDTO } from './reset-password.dto';
 import { RecoveryPassowordDTO } from './recovery-password.dto';
 
 /**
- * Injectable
+ * Auth service
  */
 @Injectable()
 export class AuthService {
@@ -21,12 +21,22 @@ export class AuthService {
 		private readonly _email: EmailsService,
 	) { }
 
+	/**
+	 * Validates user
+	 * @param { data }
+	 * @returns
+	 */
 	async validateUser({ data }: any) {
 		console.log(data);
 
 		return await this._users.getByUser(data.email);
 	}
 
+	/**
+	 * Logins auth service
+	 * @param payload
+	 * @returns
+	 */
 	async login(payload: Partial<AuthDTO>) {
 		let user = await this._users.getByUser(payload.user);
 
@@ -66,6 +76,11 @@ export class AuthService {
 		});
 		return { token, user: userLogged };
 	}
+	/**
+	 * Recoverys password
+	 * @param payload
+	 * @returns
+	 */
 	async recoveryPassword(payload: Partial<RecoveryPassowordDTO>) {
 		const user = await this._users.getByUser(payload.email);
 		let userLogged
@@ -102,6 +117,12 @@ export class AuthService {
 		}
 		return userLogged || null;
 	}
+	/**
+	 * Cahnges password
+	 * @param payload
+	 * @param id
+	 * @returns
+	 */
 	async cahngePassword(payload: Partial<ResetPassowordDTO>, id: number) {
 		const user = await this._users.getOne(id);
 		if (!user) {

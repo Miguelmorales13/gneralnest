@@ -18,6 +18,13 @@ export class LoggerInterceptor implements NestInterceptor {
      * @returns intercept call$
      */
 	constructor(private readonly _logger: LoggerService) { }
+
+	/**
+	 * Intercepts logger interceptor
+	 * @param context
+	 * @param call$
+	 * @returns intercept
+	 */
 	intercept(context: ExecutionContext, call$: CallHandler<any>, ): Observable<any> {
 		const req = context.switchToHttp().getRequest<Request>();
 		const wheree = context.getClass().name + '::' + context.getHandler().name;

@@ -1,6 +1,9 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
 
+/**
+ * Recovery passoword dto
+ */
 export class RecoveryPassowordDTO {
 	@ApiModelProperty({ description: 'Email to reset password', type: 'string', })
 	@IsString({ message: 'auth.user_required' })

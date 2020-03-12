@@ -6,6 +6,10 @@ import { Rol } from '../../entitys/rol.entity';
 import { Image } from '../../entitys/Image.entity';
 import { CategoryImages } from '../../entitys/GategoriesImages.entity';
 
+
+/**
+ * data base Provider
+ */
 export const databaseProviders = [
 	{
 		provide: 'SEQUELIZE',

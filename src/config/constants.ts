@@ -26,6 +26,11 @@ export const generateStorageMulter = (
 		fileSize: maxSize * 1024 * 1024,
 	},
 });
+/**
+ * Generates password
+ * @param size
+ * @returns password
+ */
 export function generatePassword(size: number): string {
 	let chars = 'abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789';
 	let password = '';
@@ -34,6 +39,9 @@ export function generatePassword(size: number): string {
 	return password;
 }
 
+/**
+ * Methods
+ */
 export enum Methods {
 	GET = "GET",
 	DELETE = "DELETE",
