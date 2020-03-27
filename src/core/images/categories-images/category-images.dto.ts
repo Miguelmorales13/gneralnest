@@ -6,7 +6,7 @@ import { IsString } from 'class-validator';
  */
 export class CategoryImagesDTO {
 	@ApiModelProperty({ description: 'name to category DTO' })
-	@IsString({ message: 'El nombre es una cadena' })
+	@IsString({ message: 'the name it´s string' })
 	name?: string;
 
 	@ApiModelProperty({ description: 'description to category DTO' })

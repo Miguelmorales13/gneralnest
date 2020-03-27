@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-
 import { SequelizeCrudService } from '../../../crud/SequelizeCrudService';
-import { CategoryImages } from '../../../entitys/GategoriesImages.entity';
+import { CategoryImages } from '../../../entities/CategoriesImages.entity';
 import { CategoryImagesDTO } from './category-images.dto';
+
 
 @Injectable()
 export class CategoriesImagesService extends SequelizeCrudService<CategoryImages, CategoryImagesDTO>{

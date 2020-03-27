@@ -1,6 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-
 import { CategoryImagesDTO } from '../categories-images/category-images.dto';
 
 /**
@@ -8,7 +7,7 @@ import { CategoryImagesDTO } from '../categories-images/category-images.dto';
  */
 export class ImageDTO {
 	@ApiModelProperty({ description: 'title to image DTO', required: true })
-	@IsString({ message: 'El titulo es una cadena' })
+	@IsString({ message: 'The title it´s string' })
 	title?: string;
 
 	@ApiModelProperty({ description: 'description to image DTO', required: false })

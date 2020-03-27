@@ -7,11 +7,11 @@ import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 export class RolDTO {
 
 	@ApiModelProperty({ description: 'name to rol', type: 'string' })
-	@IsString({ message: 'El nombre es requerido' })
+	@IsString({ message: 'The name is required' })
 	name?: string;
 
 	@ApiModelProperty({ description: 'access assigned to rol' })
-	@IsNotEmpty({ message: 'accessos invalidos' })
+	@IsNotEmpty({ message: 'access invalids' })
 	access?: number | AccessDTO;
 }
 
@@ -21,11 +21,11 @@ export class RolDTO {
 export class AccessDTO {
 
 	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
-	@IsBoolean({ message: 'accessos de lectura invalidos' })
+	@IsBoolean({ message: 'access to read invalids' })
 	read?: boolean;
 
 	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
-	@IsBoolean({ message: 'accessos de escritura invalidos' })
+	@IsBoolean({ message: 'access to write invalids' })
 	write?: boolean;
 }
 
@@ -35,10 +35,10 @@ export class AccessDTO {
 export class RolAccessDTO {
 
 	@ApiModelProperty({ description: 'module to access' })
-	@IsNotEmpty({ message: 'accessos de usuarios invalidos' })
+	@IsNotEmpty({ message: 'access to users invalids' })
 	users: AccessDTO;
 
 	@ApiModelProperty({ description: 'module to access' })
-	@IsNotEmpty({ message: 'accessos de roles invalidos' })
-	rols: AccessDTO;
+	@IsNotEmpty({ message: 'accesses to roles invalids' })
+	roles: AccessDTO;
 }

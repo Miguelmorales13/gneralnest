@@ -1,4 +1,4 @@
-import { CategoryImages } from '../../../entitys/GategoriesImages.entity';
+import { CategoryImages } from '../../../entities/CategoriesImages.entity';
 
 export const categoryImagesProviders = [
 	{

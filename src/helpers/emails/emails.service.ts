@@ -4,6 +4,7 @@ import { join } from 'path';
 import { renderFile } from 'pug';
 import { ConfigService } from '../../config/config.service';
 
+
 /**
  * Emails service
  */
@@ -42,20 +43,8 @@ export class EmailsService {
 	 * @param html
 	 * @returns mail
 	 */
-	async sendMail(
-		from: string,
-		to: string,
-		subject: string,
-		text: string,
-		html: string,
-	): Promise<Transporter> {
-		return await this.transporter.sendMail({
-			from,
-			to,
-			subject,
-			text,
-			html,
-		});
+	async sendMail(from: string, to: string, subject: string, text: string, html: string): Promise<Transporter> {
+		return await this.transporter.sendMail({ from, to, subject, text, html });
 	}
 	/**
 	 * Generates template

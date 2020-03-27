@@ -1,18 +1,9 @@
-import {
-	ArgumentsHost,
-	BadGatewayException,
-	Catch,
-	ExceptionFilter,
-	HttpException,
-	HttpStatus,
-	Logger,
-	NotFoundException,
-} from '@nestjs/common';
+import { ArgumentsHost, BadGatewayException, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, NotFoundException } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
-import * as  i18n from "i18n";
-
+import * as i18n from "i18n";
 import { LoggerService } from '../helpers/logger/logger.service';
+
 
 /**
  * Catch HttpErrorFilter implements ExceptionFilter

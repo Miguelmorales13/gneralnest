@@ -1,7 +1,5 @@
-import { ICrudService } from './ISequelizeCrudService';
 import { FindOptions } from 'sequelize';
-
-
+import { ICrudService } from './ISequelizeCrudService';
 
 /**
  * Sequelize crud service

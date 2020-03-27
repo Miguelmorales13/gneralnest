@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 import { API_URL, generatePassword } from '../../config/constants';
 import { EmailsService } from '../../helpers/emails/emails.service';
 import { UserService } from '../user/user.service';
 import { AuthDTO } from './auth.dto';
-import * as bcrypt from 'bcrypt';
-import { ResetPassowordDTO } from './reset-password.dto';
 import { RecoveryPassowordDTO } from './recovery-password.dto';
+import { ResetPassowordDTO } from './reset-password.dto';
 
 /**
  * Auth service

@@ -1,4 +1,4 @@
-import { Image } from '../../../entitys/Image.entity';
+import { Image } from '../../../entities/Image.entity';
 
 export const imagesProviders = [
 	{

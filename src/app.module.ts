@@ -3,7 +3,6 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { config } from 'dotenv';
 import * as path from 'path';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
@@ -16,7 +15,7 @@ import { UserModule } from './core/user/user.module';
 import { HttpErrorFilter } from './filters/http-error.filter';
 import { HelpersModule } from './helpers/helpers.module';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
-import { DatabaseModule } from './providers/database.module';
+
 
 /**
  * Module

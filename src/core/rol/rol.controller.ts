@@ -9,36 +9,36 @@ import { RolService } from './rol.service';
  */
 // @UseGuards(AuthGua   rd('jwt'))
 
-@ApiUseTags('Rols')
-@Controller('rols')
+@ApiUseTags('Roles')
+@Controller('roles')
 export class RolController {
 
-	constructor(readonly rols: RolService) {
+	constructor(readonly roles: RolService) {
 	}
 	@Get()
 	async getAll() {
-		let data = await this.rols.getAll()
+		let data = await this.roles.getAll()
 		return data
 	}
 	@Get(':id')
 	async getById(@Param('id') id: number) {
-		let data = await this.rols.getOne(id)
+		let data = await this.roles.getOne(id)
 		return data
 	}
 
 	@Post()
 	async create(@Body() rol: RolDTO) {
-		let data = await this.rols.create(rol)
+		let data = await this.roles.create(rol)
 		return data
 	}
 	@Put(':id')
 	async update(@Body() rol: RolDTO, @Param('id') id: number) {
-		let data = await this.rols.update(rol, id)
+		let data = await this.roles.update(rol, id)
 		return data
 	}
 	@Delete(':id')
 	async delete(@Param('id') id: number) {
-		let data = await this.rols.delete(id)
+		let data = await this.roles.delete(id)
 		return data
 	}
 }

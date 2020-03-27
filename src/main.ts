@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as express from 'express';
+import * as i18n from 'i18n';
 import { join, resolve } from 'path';
 import { AppModule } from './app.module';
 import { ValidatorPipe } from './pipes/validator.pipe';
-import * as i18n from "i18n";
+
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {

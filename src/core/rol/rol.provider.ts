@@ -1,8 +1,8 @@
-import { Rol } from '../../entitys/rol.entity';
+import { Rol } from '../../entities/rol.entity';
 
-export const rolsProviders = [
+export const rolesProviders = [
 	{
-		provide: 'ROLS_REPOSITORY',
+		provide: 'ROLES_REPOSITORY',
 		useValue: Rol,
 	},
 ];

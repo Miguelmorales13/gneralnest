@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-
-import { SequelizeCrudService } from '../../crud/SequelizeCrudService';
-import { User } from '../../entitys/user.entity';
-import { UserDTO } from './user.dto';
 import { Op } from 'sequelize';
-import { generatePassword } from '../../config/constants';
-import { EmailsService } from '../../helpers/emails/emails.service';
 import { ConfigService } from '../../config/config.service';
+import { generatePassword } from '../../config/constants';
+import { SequelizeCrudService } from '../../crud/SequelizeCrudService';
+import { User } from '../../entities/user.entity';
+import { EmailsService } from '../../helpers/emails/emails.service';
+import { UserDTO } from './user.dto';
+
 
 /**
  * Injectable

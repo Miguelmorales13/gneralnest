@@ -18,7 +18,7 @@
 		"auth": {
 			"before_password_required": "La contraseña anterior es requerida",
 			"new_password_required": "La nueva contraseña es requerida",
-			"repit_new_password_required": "La repeticion de la nueva contraseña es requerida",
+			"repeat_new_password_required": "La repeticion de la nueva contraseña es requerida",
 			"user_required": "El usuario es requerido",
 			"password_required": "La contraseña es requerida",
 			"format_invalid_email": "El formato del correo no es valido"

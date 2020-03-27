@@ -1,10 +1,11 @@
 import { Sequelize } from 'sequelize-typescript';
 import { ConfigService } from '../../config/config.service';
-import { User } from '../../entitys/user.entity';
-import { Logger } from '../../entitys/Logger.entity';
-import { Rol } from '../../entitys/rol.entity';
-import { Image } from '../../entitys/Image.entity';
-import { CategoryImages } from '../../entitys/GategoriesImages.entity';
+import { CategoryImages } from '../../entities/CategoriesImages.entity';
+import { Image } from '../../entities/Image.entity';
+import { Logger } from '../../entities/Logger.entity';
+import { Rol } from '../../entities/rol.entity';
+import { User } from '../../entities/user.entity';
+
 
 
 /**

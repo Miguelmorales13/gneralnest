@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Request } from 'express';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import * as path from 'path';
 
 import { ConfigService } from '../../config/config.service';
-import { Logger } from '../../entitys/Logger.entity';
+import { Logger } from '../../entities/Logger.entity';
 import { GateLoggerGateway } from './gate-logger.gateway';
-import { Request } from 'express';
 
 @Injectable()
 export class LoggerService {

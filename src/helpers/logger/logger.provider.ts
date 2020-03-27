@@ -1,4 +1,4 @@
-import { Logger } from '../../entitys/Logger.entity';
+import { Logger } from '../../entities/Logger.entity';
 
 export const loggersProviders = [
 	{

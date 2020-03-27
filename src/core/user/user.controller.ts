@@ -1,10 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req, Request } from '@nestjs/common';
-import { ApiConsumes, ApiUseTags } from '@nestjs/swagger';
-
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
+import { User } from '../../entities/user.entity';
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
-import { AuthGuard } from '@nestjs/passport';
-import { User } from '../../entitys/user.entity';
 
 /**
  * Controller users

@@ -1,10 +1,10 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 /**
- * Reset passoword dto
+ * Reset password dto
  */
-export class ResetPassowordDTO {
+export class ResetPasswordDTO {
 	@ApiModelProperty({ description: 'Password', type: 'string', })
 	@IsString({ message: 'auth.before_password_required' })
 	oldPassword?: string;
@@ -14,6 +14,6 @@ export class ResetPassowordDTO {
 	newPassword?: string;
 
 	@ApiModelProperty({ description: 'Password', type: 'string', })
-	@IsString({ message: 'auth.repit_new_password_required' })
-	repitNewPassword?: string;
+	@IsString({ message: 'auth.repeat_new_password_required' })
+	repeatNewPassword?: string;
 }
