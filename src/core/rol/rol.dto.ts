@@ -2,43 +2,54 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 /**
- * Rol dto
- */
-export class RolDTO {
-
-	@ApiModelProperty({ description: 'name to rol', type: 'string' })
-	@IsString({ message: 'The name is required' })
-	name?: string;
-
-	@ApiModelProperty({ description: 'access assigned to rol' })
-	@IsNotEmpty({ message: 'access invalids' })
-	access?: number | AccessDTO;
-}
-
-/**
  * Access
  */
 export class AccessDTO {
 
-	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
-	@IsBoolean({ message: 'access to read invalids' })
+	@ApiModelProperty({ description: 'access to module dependence' })
+	@IsBoolean({ message: 'roles.read_is_required' })
 	read?: boolean;
 
-	@ApiModelProperty({ description: 'access to module dependence ', type: 'boolean' })
-	@IsBoolean({ message: 'access to write invalids' })
+	@ApiModelProperty({ description: 'access to module dependence' })
+	@IsBoolean({ message: 'roles.write_is_required' })
 	write?: boolean;
 }
-
 /**
  * Rol access
  */
 export class RolAccessDTO {
 
-	@ApiModelProperty({ description: 'module to access' })
-	@IsNotEmpty({ message: 'access to users invalids' })
+	@ApiModelProperty({ description: 'module to access', type: AccessDTO })
+	@IsNotEmpty({ message: 'roles.users_is_required' })
 	users: AccessDTO;
 
-	@ApiModelProperty({ description: 'module to access' })
-	@IsNotEmpty({ message: 'accesses to roles invalids' })
+	@ApiModelProperty({ description: 'module to access', type: AccessDTO })
+	@IsNotEmpty({ message: 'roles.roles_is_required' })
 	roles: AccessDTO;
+
+	@ApiModelProperty({ description: 'module to access', type: AccessDTO })
+	@IsNotEmpty({ message: 'roles.images_is_required' })
+	images: AccessDTO;
+
+	@ApiModelProperty({ description: 'module to access', type: AccessDTO })
+	@IsNotEmpty({ message: 'roles.categories_images_is_required' })
+	categoriesImages: AccessDTO;
 }
+/**
+ * Rol dto
+ */
+export class RolDTO {
+
+	@ApiModelProperty({ description: 'name to rol', type: 'string' })
+	@IsString({ message: 'roles.name_is_required' })
+	name?: string;
+
+	@ApiModelProperty({ description: 'access assigned to rol', type: RolAccessDTO })
+	@IsNotEmpty({ message: 'roles.access_invalids' })
+	access?: RolAccessDTO;
+}
+
+
+
+
+

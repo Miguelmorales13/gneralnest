@@ -1,5 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { RolDTO } from '../rol/rol.dto';
 
 /**
  * User dto
@@ -23,11 +24,14 @@ export class UserDTO {
 	// @IsString({ message: 'Contraseña requerida' })
 	password?: string;
 
-	@ApiModelProperty({ description: 'lastname to user DTO' })
+	@ApiModelProperty({ description: 'last name to user DTO' })
 	@IsString({ message: 'users.last_name_required' })
 	lastName?: string;
 
-	// @ApiModelProperty({description:'rol to user DTO'})
-	// @IsNotEmpty({ message: 'El acceso es requerido' })
-	// rol?: RolDTO;
+	@ApiModelProperty({ description: 'rol to user DTO' })
+	@IsNumber({}, { message: 'users.rol_id_required' })
+	rolId?: number;
+
+	@ApiModelProperty({ description: 'rol to user DTO', required: false, type: RolDTO })
+	rol?: RolDTO;
 }

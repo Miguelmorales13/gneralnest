@@ -13,7 +13,20 @@
 			"name_required": "The name is required",
 			"email_required": "Email is required",
 			"format_invalid_email": "The email format is not valid",
-			"last_name_required": "Appeals are required"
+			"last_name_required": "Appeals are required",
+			"rol_id_required": "The id role is required",
+			"user_already_exist": "The user is already registered",
+			"email_already_exist": "The mail is already registered"
+		},
+		"roles": {
+			"users_is_required": "User accesses are required",
+			"roles_is_required": "Access to roles is required",
+			"images_is_required": "Access to images is required",
+			"categories_images_is_required": "Access to image categories are required",
+			"read_is_required": "Reading access is required",
+			"write_is_required": "Write access is required",
+			"name_is_required": "The role name is required",
+			"access_invalids": "Access to the modules is required"
 		},
 		"auth": {
 			"before_password_required": "The old password is required",
@@ -25,6 +38,15 @@
 		}
 	},
 	"errors": {
-		"not_found": "Server problems"
+		"not_found": "Server problems",
+		"auth": {
+			"invalid_credentials": "Invalid credentials",
+			"user_locked": "Unsubscribed user",
+			"unauthorized": "Without soundproofing",
+			"unregistered": "Unregistered user",
+			"password_not_same_previous": "The password is not the same as the previous one",
+			"passwords_not_same": "Repeated passwords do not same"
+		},
+		"users": {}
 	}
 }

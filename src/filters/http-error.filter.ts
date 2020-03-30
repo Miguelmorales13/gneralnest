@@ -1,7 +1,8 @@
-import { ArgumentsHost, BadGatewayException, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, NotFoundException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
 import * as i18n from "i18n";
+import { SequelizeScopeError, ValidationError } from 'sequelize';
 import { LoggerService } from '../helpers/logger/logger.service';
 
 
@@ -10,15 +11,11 @@ import { LoggerService } from '../helpers/logger/logger.service';
  */
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
-	exceptions: any[] = [
-		{ instance: NotFoundException, where: 'NO_FOUND' },
-		{ instance: HttpException },
-		{ instance: BadGatewayException, where: 'URL' },
-	];
+
     /**
-     * Catchs http error filter
+     * Catch http error filter
      * @param exception Http exception
-     * @param host argiment host
+     * @param host argument host
      */
 	constructor(private readonly _logger: LoggerService) { }
 	async catch(exception: HttpException, host: ArgumentsHost) {
@@ -32,41 +29,47 @@ export class HttpErrorFilter implements ExceptionFilter {
 		// 		join(__dirname, '../../public/dist/index.html'),
 		// 	);
 		const lang: any = request.headers['accept-language'] || process.env.LANG_DEFAULT;
-
 		const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-
+		// @ts-ignore
+		let messages = exception.errors ? exception.errors[0].message : exception.message
 		const wheree: string = exception.message.where || 'SERVER';
-		const errorResponce = {
+		const errorResponse = {
 			code: status,
 			timestamps: new Date().toLocaleDateString(),
 			path: request.url,
 			method: request.method,
-			message: await this.getMessage(exception.message, lang),
+			message: await this.getMessage(messages, lang),
 		};
 		Logger.error(
-			await this._logger.addLoggerInterceptor(
-				request,
-				Date.now(),
-				wheree,
-				'ERROR',
-				errorResponce,
-			),
+			await this._logger.addLoggerInterceptor(request, Date.now(), wheree, 'ERROR', errorResponse),
 			exception.stack,
 			wheree,
 		);
 
-		response.status(status).json(errorResponce);
+		response.status(status).json(errorResponse);
 	}
+	/**
+	 * Gets message
+	 * @param error 
+	 * @param lang 
+	 * @returns  
+	 */
 	async getMessage(error: any, lang: string) {
 		if (error && error.error) {
-			return await this.traslateMessage(error.error, lang)
+			return await this.translateMessage(error.error, lang)
 		} else if (error) {
-			return await this.traslateMessage(error, lang)
+			return await this.translateMessage(error, lang)
 		} else {
 			return null
 		}
 	}
-	async traslateMessage(message: Array<string> | string, lang: string) {
+	/**
+	 * Translates message
+	 * @param message 
+	 * @param lang 
+	 * @returns  
+	 */
+	async translateMessage(message: Array<string> | string, lang: string) {
 
 		if (message instanceof Array) {
 			return message.map(messageInArray => {
@@ -78,7 +81,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 		} else {
 			return i18n.__({
 				locale: lang,
-				phrase: message
+				phrase: message.trim()
 			}, message)
 		}
 	}

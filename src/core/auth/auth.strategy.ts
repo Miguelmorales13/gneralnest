@@ -30,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		if (!payload || !payload.data || !payload.data.email) {
 			throw new HttpException(
 				{
-					error: 'Sin autorizacion',
+					error: 'errors.auth.unauthorized',
 					where: 'AuthStrategy::validate',
 				},
 				HttpStatus.UNAUTHORIZED,
@@ -40,7 +40,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		if (!user) {
 			throw new HttpException(
 				{
-					error: 'Sin autorizacion',
+					error: 'errors.auth.unauthorized',
 					where: 'AuthStrategy::validate',
 				},
 				HttpStatus.UNAUTHORIZED,

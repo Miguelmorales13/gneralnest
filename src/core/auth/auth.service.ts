@@ -6,8 +6,8 @@ import { API_URL, generatePassword } from '../../config/constants';
 import { EmailsService } from '../../helpers/emails/emails.service';
 import { UserService } from '../user/user.service';
 import { AuthDTO } from './auth.dto';
-import { RecoveryPassowordDTO } from './recovery-password.dto';
-import { ResetPassowordDTO } from './reset-password.dto';
+import { RecoveryPasswordDTO } from './recovery-password.dto';
+import { ResetPasswordDTO } from './reset-password.dto';
 
 /**
  * Auth service
@@ -43,7 +43,7 @@ export class AuthService {
 		if (!user || !(await user.comparePassword(payload.password))) {
 			throw new HttpException(
 				{
-					error: 'Credenciales invalidas',
+					error: 'errors.auth.invalid_credentials',
 					where: this.service + '::validateUser',
 				},
 				HttpStatus.UNAUTHORIZED,
@@ -63,7 +63,7 @@ export class AuthService {
 		if (!user.active) {
 			throw new HttpException(
 				{
-					error: 'Usuario dado de baja',
+					error: 'errors.auth.user_locked',
 					where: this.service + '::login',
 				},
 				HttpStatus.UNAUTHORIZED,
@@ -81,7 +81,7 @@ export class AuthService {
 	 * @param payload
 	 * @returns
 	 */
-	async recoveryPassword(payload: Partial<RecoveryPassowordDTO>) {
+	async recoveryPassword(payload: Partial<RecoveryPasswordDTO>) {
 		const user = await this._users.getByUser(payload.email);
 		let userLogged
 		if (user) {
@@ -118,21 +118,21 @@ export class AuthService {
 		return userLogged || null;
 	}
 	/**
-	 * Cahnges password
+	 * Changes password
 	 * @param payload
 	 * @param id
 	 * @returns
 	 */
-	async cahngePassword(payload: Partial<ResetPassowordDTO>, id: number) {
+	async changePassword(payload: Partial<ResetPasswordDTO>, id: number) {
 		const user = await this._users.getOne(id);
 		if (!user) {
-			throw new HttpException('Usuario no registrado', HttpStatus.BAD_REQUEST);
+			throw new HttpException('errors.auth.unregistered', HttpStatus.BAD_REQUEST);
 		}
 		if (!await user.comparePassword(payload.oldPassword)) {
-			throw new HttpException('La contraseña anterior no coinside', HttpStatus.BAD_REQUEST);
+			throw new HttpException('errors.auth.password_not_same_previous', HttpStatus.BAD_REQUEST);
 		}
-		if (payload.newPassword != payload.repitNewPassword) {
-			throw new HttpException('La contraseñas no coinsiden', HttpStatus.BAD_REQUEST);
+		if (payload.newPassword != payload.repeatNewPassword) {
+			throw new HttpException('errors.auth.passwords_not_same', HttpStatus.BAD_REQUEST);
 		}
 		const password = await bcrypt.hashSync(payload.newPassword, 10);
 		await this._users.update({ password }, user.id);

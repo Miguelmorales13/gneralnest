@@ -32,27 +32,14 @@ export class LoggerInterceptor implements NestInterceptor {
 		return call$.handle().pipe(
 			tap(async () => {
 				Logger.log(
-					await this._logger.addLoggerInterceptor(
-						req,
-						now,
-						wheree,
-						'REQUEST',
-						req.body,
-					),
+					await this._logger.addLoggerInterceptor(req, now, wheree, 'REQUEST', req.body),
 					wheree,
 				);
 			}),
 			map(async (data) => {
 				const lang: any = req.headers['accept-language'] || process.env.LANG_DEFAULT;
-
 				Logger.log(
-					await this._logger.addLoggerInterceptor(
-						req,
-						now,
-						wheree,
-						'RESPONSE',
-						data,
-					),
+					await this._logger.addLoggerInterceptor(req, now, wheree, 'RESPONSE', data),
 					wheree,
 				);
 				let message = i18n.__({

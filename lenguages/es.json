@@ -13,7 +13,20 @@
 			"name_required": "El nombre es requerido",
 			"email_required": "El correo electronico es requerido",
 			"format_invalid_email": "El formato del correo no es valido",
-			"last_name_required": "los apellos son requeridos"
+			"last_name_required": "los apellos son requeridos",
+			"rol_id_required": "El rol id es requerido",
+			"user_already_exist": "El usuario ya esta registrado",
+			"email_already_exist": "El correo ya esta registrado"
+		},
+		"roles": {
+			"users_is_required": "Los accesos a usuarios son requeridos",
+			"roles_is_required": "Los accesos a roles son requeridos",
+			"images_is_required": "Los accesos a imagenes son requeridos",
+			"categories_images_is_required": "Los accesos a las categorias de imagenes son requeridos",
+			"read_is_required": "El accesos de leectura es requerido",
+			"write_is_required": "El accesos de escritura es requerido",
+			"name_is_required": "El nombre del rol es requerido",
+			"access_invalids": "Los accesos a los modulos son requeridos"
 		},
 		"auth": {
 			"before_password_required": "La contraseña anterior es requerida",
@@ -25,6 +38,15 @@
 		}
 	},
 	"errors": {
-		"not_found": "Problemas en el servidor"
+		"not_found": "Problemas en el servidor",
+		"auth": {
+			"invalid_credentials": "Credenciales invalidas",
+			"user_locked": "Usuario dado de baja",
+			"unauthorized": "Sin auntorizacion",
+			"unregistered": "Usuario no registrado",
+			"password_not_same_previous": "La contraseña no es igual a la anterior",
+			"passwords_not_same": "Las contraseñas repetidas no son iguales"
+		},
+		"users": {}
 	}
 }

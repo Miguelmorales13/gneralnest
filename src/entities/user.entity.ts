@@ -25,14 +25,14 @@ export class User extends General<User> {
 
 	@Is(async function Unique(value: string) {
 		let user = await User.findOne({ where: { user: value }, attributes: ['id'] })
-		if (user && user.id != this.id) throw new HttpException('Usuario ya registrado', HttpStatus.CONFLICT);
+		if (user && user.id != this.id) throw new Error('validations.users.user_already_exist');
 	})
 	@Column({ type: DataType.STRING(100), allowNull: false })
 	user?: string;
 
 	@Is(async function Unique(value: string) {
 		let user = await User.findOne({ where: { email: value }, attributes: ['id'] })
-		if (user && user.id != this.id) throw new HttpException('Correo ya registrado', HttpStatus.CONFLICT);
+		if (user && user.id != this.id) throw new Error('validations.users.email_already_exist');
 	})
 	@Column({ type: DataType.STRING(200), allowNull: false })
 	email?: string;
@@ -44,7 +44,7 @@ export class User extends General<User> {
 	lastName?: string;
 
 	@ForeignKey(() => Rol)
-	@Column({ type: DataType.INTEGER, allowNull: true })
+	@Column({ type: DataType.INTEGER, allowNull: false })
 	rolId?: number;
 
 	@BelongsTo(() => Rol)
