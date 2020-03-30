@@ -3,8 +3,8 @@ import { ApiUseTags, ApiBearerAuth, ApiImplicitHeader } from '@nestjs/swagger';
 
 import { AuthDTO } from './auth.dto';
 import { AuthService } from './auth.service';
-import { RecoveryPassowordDTO } from './recovery-password.dto';
-import { ResetPassowordDTO } from './reset-password.dto';
+import { RecoveryPasswordDTO } from './recovery-password.dto';
+import { ResetPasswordDTO } from './reset-password.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 /**
@@ -30,7 +30,7 @@ export class AuthController {
 	 * @returns
 	 */
 	@Post('recovery-password')
-	async recoveryPassword(@Body() recovery: RecoveryPassowordDTO) {
+	async recoveryPassword(@Body() recovery: RecoveryPasswordDTO) {
 		return this._auth.recoveryPassword(recovery);
 	}
 
@@ -42,9 +42,9 @@ export class AuthController {
 	 */
 	@UseGuards(AuthGuard('jwt'))
 	@Post('change-password')
-	async resetPassword(@Body() reset: ResetPassowordDTO, @Req() req) {
+	async resetPassword(@Body() reset: ResetPasswordDTO, @Req() req) {
 		console.log(req);
 
-		return this._auth.cahngePassword(reset, req.user.id);
+		return this._auth.changePassword(reset, req.user.id);
 	}
 }
