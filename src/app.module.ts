@@ -15,7 +15,9 @@ import { UserModule } from './core/user/user.module';
 import { HttpErrorFilter } from './filters/http-error.filter';
 import { HelpersModule } from './helpers/helpers.module';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { InternalizationModule } from './modules-configs/internalization/internalization.module';
 
 /**
  * Module
@@ -29,6 +31,24 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
 				dest: path.join(__dirname, _config.get('MULTER_DEST')),
 			}),
 			inject: [ConfigService],
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'public', 'uploads'),
+			renderPath: '/uploads',
+			serveRoot: '/uploads'
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'public', 'dist'),
+			exclude: [
+				'/uploads/*',
+				'/api/*'
+			]
+		}),
+		InternalizationModule.register({
+			locales: ['en', 'es'],
+			directory: path.resolve(__dirname, '..', 'lenguages'),
+			objectNotation: true,
+			updateFiles: false,
 		}),
 		// http config  async is for petitions type ajax
 		HttpModule.registerAsync({

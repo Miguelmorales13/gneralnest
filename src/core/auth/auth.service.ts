@@ -27,7 +27,6 @@ export class AuthService {
 	 * @returns
 	 */
 	async validateUser({ data }: any) {
-		console.log(data);
 
 		return await this._users.getByUser(data.email);
 	}
@@ -97,7 +96,7 @@ export class AuthService {
 				'Recuperar contraseña - plataforma de "Hoteles"',
 				'text',
 				await this._email.generateTemplate<any>('recovery-password', {
-					newPassword,
+					password: newPassword,
 					email: payload.email,
 					token,
 				}),

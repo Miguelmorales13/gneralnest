@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { RecoveryPasswordDTO } from './recovery-password.dto';
 import { ResetPasswordDTO } from './reset-password.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { UserRequest } from '../../decorators/User.decoraton';
 
 /**
  * Auth controller
@@ -41,10 +42,10 @@ export class AuthController {
 	 * @returns
 	 */
 	@UseGuards(AuthGuard('jwt'))
+	@ApiBearerAuth()
 	@Post('change-password')
-	async resetPassword(@Body() reset: ResetPasswordDTO, @Req() req) {
-		console.log(req);
+	async resetPassword(@Body() reset: ResetPasswordDTO, @UserRequest('id') id: any) {
 
-		return this._auth.changePassword(reset, req.user.id);
+		return this._auth.changePassword(reset, id);
 	}
 }
