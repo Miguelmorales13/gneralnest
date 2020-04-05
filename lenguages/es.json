@@ -3,7 +3,8 @@
 		"GET": "Peticion exitosa",
 		"POST": "Creacion exitosa",
 		"PUT": "Actualizacion exitosa",
-		"DELETE": "Eliminacion exitosa"
+		"DELETE": "Eliminacion exitosa",
+		"login_successful": "Iniciando sesion"
 	},
 	"validations": {
 		"general": {
@@ -13,7 +14,7 @@
 			"name_required": "El nombre es requerido",
 			"email_required": "El correo electronico es requerido",
 			"format_invalid_email": "El formato del correo no es valido",
-			"last_name_required": "los apellos son requeridos",
+			"last_name_required": "Los apellidos son requeridos",
 			"rol_id_required": "El rol id es requerido",
 			"user_already_exist": "El usuario ya esta registrado",
 			"email_already_exist": "El correo ya esta registrado"

@@ -44,10 +44,10 @@ export class LoggerInterceptor implements NestInterceptor {
 				);
 				let message = i18n.__({
 					locale: lang,
-					phrase: `petitions.${req.method}`
-				}, `petitions.${req.method}`)
+					phrase: `petitions.${data.message || req.method}`
+				}, `petitions.${data.message || req.method}`)
 
-				return { data: data || null, message: message };
+				return { data: data.data || data || null, message: message };
 			}),
 		);
 	}

@@ -23,7 +23,8 @@ export class AuthController {
 	 */
 	@Post('login')
 	async login(@Body() user: AuthDTO) {
-		return this._auth.login(user);
+		let data = await this._auth.login(user);
+		return { data, message: 'login_successful' }
 	}
 	/**
 	 * Recoverys password

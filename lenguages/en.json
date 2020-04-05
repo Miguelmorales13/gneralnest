@@ -3,7 +3,8 @@
 		"GET": "Successful petition",
 		"POST": "Successful creation",
 		"PUT": "Successful update",
-		"DELETE": "Successful removal"
+		"DELETE": "Successful removal",
+		"login_successful": "Logging in"
 	},
 	"validations": {
 		"general": {
