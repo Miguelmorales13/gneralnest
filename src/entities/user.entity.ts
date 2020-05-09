@@ -9,10 +9,10 @@ import { Rol } from './rol.entity';
  * Entity user
  */
 @DefaultScope(() => ({
-	include: [{
-		model: Rol,
-		required: false
-	}]
+	// include: [{
+	// 	model: Rol,
+	// 	required: false
+	// }]
 }))
 @Table({
 	paranoid: true,
@@ -43,12 +43,12 @@ export class User extends General<User> {
 	@Column({ type: DataType.STRING(100), allowNull: false })
 	lastName?: string;
 
-	@ForeignKey(() => Rol)
-	@Column({ type: DataType.INTEGER, allowNull: false })
-	rolId?: number;
+	// @ForeignKey(() => Rol)
+	// @Column({ type: DataType.INTEGER, allowNull: false })
+	// rolId?: number;
 
-	@BelongsTo(() => Rol)
-	rol?: Rol;
+	// @BelongsTo(() => Rol)
+	// rol?: Rol;
 
 	@Column({ defaultValue: true, allowNull: false })
 	active?: boolean;

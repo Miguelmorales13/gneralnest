@@ -1,31 +1,46 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Post,
+	Put,
+} from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
 import { User } from '../../entities/user.entity';
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
-import { AuthGuard } from '@nestjs/passport';
 
 /**
  * Controller users
  */
 @ApiUseTags('Users')
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class UserController {
-	attributes = ['id', 'name', 'lastName', 'createdAt', 'updatedAt', 'rolId', 'user', 'email', 'active']
-	constructor(private readonly users: UserService) { }
-
+	attributes = [
+		'id',
+		'name',
+		'lastName',
+		'createdAt',
+		'updatedAt',
+		'user',
+		'email',
+		'active',
+	];
+	constructor(private readonly users: UserService) {}
 	/**
 	 * Gets all
 	 * @returns all
 	 */
 	@Get()
 	async getAll(): Promise<User[]> {
-		// async getAll(@Req() req: Request) {
-		let data = await this.users.getAll({ attributes: this.attributes })
-		return data
+		let data = await this.users.getAll({ attributes: this.attributes });
+		return data;
 	}
+
 	/**
 	 * Gets by id
 	 * @param id
@@ -33,7 +48,7 @@ export class UserController {
 	 */
 	@Get(':id')
 	async getById(@Param('id') id: number): Promise<User> {
-		return await this.users.getOne(id, { attributes: this.attributes })
+		return await this.users.getOne(id, { attributes: this.attributes });
 	}
 
 	/**
@@ -43,7 +58,7 @@ export class UserController {
 	 */
 	@Post()
 	async create(@Body() user: UserDTO): Promise<User> {
-		return await this.users.create(user)
+		return await this.users.create(user);
 	}
 	/**
 	 * Updates user controller
@@ -52,8 +67,11 @@ export class UserController {
 	 * @returns update
 	 */
 	@Put(':id')
-	async update(@Body() user: UserDTO, @Param('id') id: number): Promise<User> {
-		return await this.users.update(user, id)
+	async update(
+		@Body() user: UserDTO,
+		@Param('id') id: number,
+	): Promise<User> {
+		return await this.users.update(user, id);
 	}
 	/**
 	 * Deletes user controller
@@ -62,7 +80,6 @@ export class UserController {
 	 */
 	@Delete(':id')
 	async delete(@Param('id') id: number): Promise<number> {
-		return await this.users.delete(id)
+		return await this.users.delete(id);
 	}
-
 }

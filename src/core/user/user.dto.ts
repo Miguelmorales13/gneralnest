@@ -28,10 +28,10 @@ export class UserDTO {
 	@IsString({ message: 'users.last_name_required' })
 	lastName?: string;
 
-	@ApiModelProperty({ description: 'rol to user DTO' })
-	@IsNumber({}, { message: 'users.rol_id_required' })
-	rolId?: number;
+	// @ApiModelProperty({ description: 'rol to user DTO' })
+	// @IsNumber({}, { message: 'users.rol_id_required' })
+	// rolId?: number;
 
-	@ApiModelProperty({ description: 'rol to user DTO', required: false, type: RolDTO })
-	rol?: RolDTO;
+	// @ApiModelProperty({ description: 'rol to user DTO', required: false, type: RolDTO })
+	// rol?: RolDTO;
 }

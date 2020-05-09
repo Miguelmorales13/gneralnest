@@ -16,8 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 @ApiBearerAuth()
 export class RolController {
 
-	constructor(readonly roles: RolService) {
-	}
+	constructor(readonly roles: RolService) {}
 	@Get()
 	async getAll() {
 		let data = await this.roles.getAll()
