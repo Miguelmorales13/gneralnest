@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CategoriesImagesService } from './categories-images.service';
 import { CategoryImagesDTO } from './category-images.dto';
 
-@ApiUseTags('Categories to images')
+@ApiTags('Categories to images')
 @Controller('categories-images')
 export class CategoriesController {
 	constructor(private readonly categories: CategoriesImagesService) { }

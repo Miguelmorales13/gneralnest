@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Param, UseGuards, Req } from '@nestjs/common';
-import { ApiUseTags, ApiBearerAuth, ApiImplicitHeader } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthDTO } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -11,7 +11,7 @@ import { UserRequest } from '../../decorators/User.decoraton';
 /**
  * Auth controller
  */
-@ApiUseTags('Auth')
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
 	constructor(private _auth: AuthService) { }

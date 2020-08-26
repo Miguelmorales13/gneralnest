@@ -1,4 +1,4 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { HttpModule, Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { config } from 'dotenv';
@@ -18,6 +18,7 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { InternalizationModule } from './modules-configs/internalization/internalization.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 /**
  * Module
@@ -46,7 +47,7 @@ import { InternalizationModule } from './modules-configs/internalization/interna
 		}),
 		InternalizationModule.register({
 			locales: ['en', 'es'],
-			directory: path.resolve(__dirname, '..', 'lenguages'),
+			directory: path.resolve(__dirname, '..', 'languages'),
 			objectNotation: true,
 			updateFiles: false,
 		}),
@@ -83,5 +84,8 @@ import { InternalizationModule } from './modules-configs/internalization/interna
 export class AppModule {
 	constructor() {
 		config();
+	}
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(LoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL })
 	}
 }

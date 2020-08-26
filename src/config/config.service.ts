@@ -39,6 +39,7 @@ export class ConfigService {
 			PORT: Joi.number().default(3000),
 			TOKEN_SECRET: Joi.string().required(),
 			HOST: Joi.string().required(),
+			MONGO_CONNECTION: Joi.string().required(),
 			HOST_COMPLETE: Joi.string().required(),
 			SEQUELIZE_TYPE: Joi.string().required(),
 			SEQUELIZE_HOST: Joi.string().required(),

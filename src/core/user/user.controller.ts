@@ -7,15 +7,15 @@ import {
 	Post,
 	Put,
 } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { User } from '../../entities/user.entity';
-import { UserDTO } from './user.dto';
+import { UserDTO, UserUpdateDTO } from './user.dto';
 import { UserService } from './user.service';
 
 /**
  * Controller users
  */
-@ApiUseTags('Users')
+@ApiTags('Users')
 @Controller('users')
 // @UseGuards(AuthGuard('jwt'))
 // @ApiBearerAuth()
@@ -30,7 +30,7 @@ export class UserController {
 		'email',
 		'active',
 	];
-	constructor(private readonly users: UserService) {}
+	constructor(private readonly users: UserService) { }
 	/**
 	 * Gets all
 	 * @returns all
@@ -68,7 +68,7 @@ export class UserController {
 	 */
 	@Put(':id')
 	async update(
-		@Body() user: UserDTO,
+		@Body() user: UserUpdateDTO,
 		@Param('id') id: number,
 	): Promise<User> {
 		return await this.users.update(user, id);

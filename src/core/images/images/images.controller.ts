@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiUseTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { generateStorageMulter } from '../../../config/constants';
 import { ImageDTO } from './image.dto';
 import { ImagesService } from './images.service';
 
 
 
-@ApiUseTags('Images')
+@ApiTags('Images')
 @Controller('images')
 export class ImagesController {
 

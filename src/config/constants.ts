@@ -5,6 +5,12 @@ import * as uuid from 'uuid/v4';
 export const API_URL: string = 'http://192.168.1.70:3000/api';
 export type Uploads = 'images' | 'pdfs' | 'xlsx';
 
+export enum enumDatabases {
+	Unique = 'MONGO_CONNECTION',
+}
+export enum modelsMongo {
+	Testing = 'TEST_MODEL'
+}
 /**
  * Generates storage multer
  * @param [type] url file type
@@ -30,6 +36,13 @@ export const generateStorageMulter = (
  * @param size
  * @returns password
  */
+export const HeadersGlobals: any = [
+	{
+		name: 'accept-language',
+		description: 'Serves for internationalization "pt" = portugues, "es"= "Español", "en"= Ingles ',
+		required: false
+	}
+]
 export function generatePassword(size: number): string {
 	let chars = 'abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789';
 	let password = '';
