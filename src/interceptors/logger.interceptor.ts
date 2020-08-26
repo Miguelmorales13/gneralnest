@@ -25,29 +25,29 @@ export class LoggerInterceptor implements NestInterceptor {
 	 * @param call$
 	 * @returns intercept
 	 */
-	intercept(context: ExecutionContext, call$: CallHandler<any>, ): Observable<any> {
+	intercept(context: ExecutionContext, call$: CallHandler<any>,): Observable<any> {
 		const req = context.switchToHttp().getRequest<Request>();
 		const wheree = context.getClass().name + '::' + context.getHandler().name;
-		const now = Date.now();
 		return call$.handle().pipe(
-			tap(async () => {
-				Logger.log(
-					await this._logger.addLoggerInterceptor(req, now, wheree, 'REQUEST', req.body),
-					wheree,
-				);
-			}),
 			map(async (data) => {
 				const lang: any = req.headers['accept-language'] || process.env.LANG_DEFAULT;
+
 				Logger.log(
-					await this._logger.addLoggerInterceptor(req, now, wheree, 'RESPONSE', data),
+					await this._logger.addLoggerInterceptor(
+						req,
+						req['time'],
+						wheree,
+						'RESPONSE',
+						data,
+					),
 					wheree,
 				);
 				let message = i18n.__({
 					locale: lang,
-					phrase: `petitions.${data.message || req.method}`
-				}, `petitions.${data.message || req.method}`)
+					phrase: `petitions.${req.method}`
+				}, `petitions.${req.method}`)
 
-				return { data: data.data || data || null, message: message };
+				return { data: data || null, message: message };
 			}),
 		);
 	}
