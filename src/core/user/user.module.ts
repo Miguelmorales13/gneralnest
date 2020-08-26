@@ -3,12 +3,12 @@ import { ConfigModule } from '../../config/config.module';
 import { HelpersModule } from '../../helpers/helpers.module';
 import { DatabaseModule } from '../../providers/database.module';
 import { UserController } from './user.controller';
-import { usersProviders } from './user.provider';
+import { usersProviders, tesProvidersMongo } from './user.provider';
 import { UserService } from './user.service';
 
 @Module({
 	imports: [DatabaseModule, HelpersModule, ConfigModule],
-	providers: [UserService, ...usersProviders],
+	providers: [UserService, ...usersProviders, ...tesProvidersMongo],
 	controllers: [UserController],
 	exports: [UserService],
 })
