@@ -1,12 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
-import * as express from 'express';
-import * as i18n from 'i18n';
-import { join, resolve } from 'path';
 import { AppModule } from './app.module';
 import { ValidatorPipe } from './pipes/validator.pipe';
-
+import { executeData } from './seeds/first.seed';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -14,7 +11,8 @@ async function bootstrap() {
 		cors: true,
 	});
 	app.enableCors();
-	const options = new DocumentBuilder().addBearerAuth()
+	const options = new DocumentBuilder()
+		.addBearerAuth()
 		.setTitle('general')
 		.setDescription('The general API description')
 		.setVersion('1.0')
@@ -28,6 +26,7 @@ async function bootstrap() {
 	SwaggerModule.setup('api', app, document);
 	app.useGlobalPipes(new ValidatorPipe());
 	await app.listen(process.env.PORT);
+	await executeData();
 	console.log(
 		`listen in port http://${process.env.HOST}:${process.env.PORT}`,
 	);

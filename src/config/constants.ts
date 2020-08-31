@@ -2,14 +2,19 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import * as uuid from 'uuid/v4';
 
-export const API_URL: string = 'http://192.168.1.70:3000/api';
-export type Uploads = 'images' | 'pdfs' | 'xlsx';
+export type Uploads = 'images' | 'pdfs' | 'xlsx' | 'sdks';
+export enum UploadsEnum {
+	images = 'images',
+	pdfs = 'pdfs',
+	xlsx = 'xlsx',
+	sdks = 'sdks',
+}
 
 export enum enumDatabases {
 	Unique = 'MONGO_CONNECTION',
 }
 export enum modelsMongo {
-	Testing = 'TEST_MODEL'
+	Testing = 'TEST_MODEL',
 }
 /**
  * Generates storage multer
@@ -39,14 +44,16 @@ export const generateStorageMulter = (
 export const HeadersGlobals: any = [
 	{
 		name: 'accept-language',
-		description: 'Serves for internationalization "pt" = portugues, "es"= "Español", "en"= Ingles ',
-		required: false
-	}
-]
+		description:
+			'Serves for internationalization "pt" = portugues, "es"= "Español", "en"= Ingles ',
+		required: false,
+	},
+];
 export function generatePassword(size: number): string {
 	let chars = 'abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789';
 	let password = '';
-	for (let i = 0; i < size; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
+	for (let i = 0; i < size; i++)
+		password += chars.charAt(Math.floor(Math.random() * chars.length));
 	return password;
 }
 
@@ -54,15 +61,55 @@ export function generatePassword(size: number): string {
  * Methods
  */
 export enum Methods {
-	GET = "GET",
-	DELETE = "DELETE",
-	PUT = "PUT",
-	POST = "POST",
-	PATCH = "PATCH",
+	GET = 'GET',
+	DELETE = 'DELETE',
+	PUT = 'PUT',
+	POST = 'POST',
+	PATCH = 'PATCH',
 }
-// export const messageReposponse = (type: string) => {
-// 	switch (type) {
-// 		case Methods.GET: return `petitions.${Methods.GET}`
-// 		default: return ''
-// 	}
-// }
+export const ROLES = [
+	{
+		id: 1,
+		name: 'Super Administrador',
+	},
+];
+export const USERS = [
+	{
+		id: 1,
+		name: 'admin',
+		user: 'adminMaster',
+		email: 'miguel.moralesr@hotmail.com',
+		password: 'admin123',
+		lastName: 'admin',
+		secondLastName: 'admin',
+		firstLogin: true,
+		rolId: 1,
+		active: true,
+	},
+];
+
+export const MODULES: Array<any> = [
+	{
+		id: 1,
+		name: 'names.modules.security',
+		keyName: 'security',
+		description: 'Security administration',
+	},
+];
+
+export const ACCESSES: Array<any> = [
+	{
+		id: 1,
+		name: 'names.accesses.users',
+		keyName: 'users-admins',
+		description: 'Users administration in admins company',
+		moduleId: 1,
+	},
+	{
+		id: 2,
+		name: 'names.accesses.roles',
+		keyName: 'roles-admins',
+		description: 'Roles administration in admins company',
+		moduleId: 1,
+	},
+];

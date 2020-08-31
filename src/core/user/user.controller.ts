@@ -68,9 +68,7 @@ export class UserController {
 	 */
 	@Put(':id')
 	async update(
-		@Body() user: UserUpdateDTO,
-		@Param('id') id: number,
-	): Promise<User> {
+		@Body() user: UserUpdateDTO, @Param('id') id: number,): Promise<User> {
 		return await this.users.update(user, id);
 	}
 	/**

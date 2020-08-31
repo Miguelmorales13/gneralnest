@@ -1,38 +1,73 @@
-import { Column, DataType, Table } from 'sequelize-typescript';
+import {
+	BelongsToMany,
+	Column,
+	DataType,
+	HasMany,
+	Is,
+	Scopes,
+	Sequelize,
+	Table,
+} from 'sequelize-typescript';
+import { Access } from './Access.entity';
+import { AccessRolUser } from './AccessesRolUser.entity';
 import { General } from './General.entity';
-
+import { User } from './User.entity';
 
 /**
  * Entity  rol
  */
+@Scopes({
+	accessList() {
+		return {
+			include: [
+				{
+					attributes: [
+						'moduleId',
+						'name',
+						'keyName',
+						['id', 'accessId'],
+						[
+							Sequelize.literal(
+								'"access->AccessRolUser"."permission"',
+							),
+							'permission',
+						],
+					],
+					model: Access,
+					through: {
+						attributes: [],
+					},
+				},
+			],
+		};
+	},
+})
 @Table({
 	paranoid: true,
 	timestamps: true,
-	underscored: true
+	underscored: true,
+	tableName: 'rols',
 })
 export class Rol extends General<Rol> {
+	/**
+	 * Name  of rol
+	 */
+	@Is(async function Unique(value: string) {
+		let rol = await Rol.findOne({
+			where: { name: value, companyId: this.companyId },
+			attributes: ['id'],
+		});
+		if (rol && rol.id != this.id)
+			throw new Error('errors.roles.name_already_exist');
+	})
 	@Column({ type: DataType.STRING(100), allowNull: false })
 	name: string;
+	/**
+	 * Access  of rol
+	 */
+	@BelongsToMany(() => Access, () => AccessRolUser)
+	access?: Access[] | any;
 
-	@Column({ type: DataType.JSON, allowNull: false })
-	access: RolAccess;
-
-	// @OneToMany((type) => UserEntity, (user) => user.rol)
-	// users: UserEntity[];
-}
-
-/**
- * Access
- */
-export interface Access {
-	read: boolean;
-	write: boolean;
-}
-
-/**
- * Rol access
- */
-export interface RolAccess {
-	users: Access;
-	rols: Access;
+	@HasMany(() => User)
+	users?: User[];
 }

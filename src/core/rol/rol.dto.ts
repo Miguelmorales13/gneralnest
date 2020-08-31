@@ -1,55 +1,72 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, IntersectionType } from '@nestjs/swagger';
+import {
+	IsNotEmpty,
+	IsNumber,
+	IsEnum,
+	IsString,
+	MaxLength,
+} from 'class-validator';
+import { General } from '../general.dto';
+import {
+	permissionAccessEnum,
+	permissionAccess,
+} from 'src/entities/AccessesRolUser.entity';
+
+let accessListExample = [
+	{ accessId: 10, permission: '0' },
+	{ accessId: 11, permission: '0' },
+	{ accessId: 12, permission: '0' },
+	{ accessId: 13, permission: '0' },
+];
 
 /**
- * Access
+ * RoAdminl dto
  */
 export class AccessDTO {
+	@ApiProperty({
+		description: 'this is the access identifier',
+		type: 'string',
+	})
+	@IsString({ message: 'rols.access.name_required' })
+	accessId: string;
 
-	@ApiProperty({ description: 'access to module dependence' })
-	@IsBoolean({ message: 'roles.read_is_required' })
-	read?: boolean;
-
-	@ApiProperty({ description: 'access to module dependence' })
-	@IsBoolean({ message: 'roles.write_is_required' })
-	write?: boolean;
+	@ApiProperty({
+		description: 'This is permission to be assigned',
+		enum: permissionAccessEnum,
+	})
+	@IsEnum(permissionAccessEnum, {
+		message: 'rols.access.permission_required',
+	})
+	permission: permissionAccess;
 }
-/**
- * Rol access
- */
-export class RolAccessDTO {
-
-	@ApiProperty({ description: 'module to access', type: AccessDTO })
-	@IsNotEmpty({ message: 'roles.users_is_required' })
-	users: AccessDTO;
-
-	@ApiProperty({ description: 'module to access', type: AccessDTO })
-	@IsNotEmpty({ message: 'roles.roles_is_required' })
-	roles: AccessDTO;
-
-	@ApiProperty({ description: 'module to access', type: AccessDTO })
-	@IsNotEmpty({ message: 'roles.images_is_required' })
-	images: AccessDTO;
-
-	@ApiProperty({ description: 'module to access', type: AccessDTO })
-	@IsNotEmpty({ message: 'roles.categories_images_is_required' })
-	categoriesImages: AccessDTO;
-}
-/**
- * Rol dto
- */
 export class RolDTO {
-
-	@ApiProperty({ description: 'name to rol', type: 'string' })
-	@IsString({ message: 'roles.name_is_required' })
+	@ApiProperty({ description: 'This is the name of the role' })
+	@MaxLength(100, { message: 'rols.name_max' })
+	@IsString({ message: 'rols.name_required' })
 	name?: string;
 
-	@ApiProperty({ description: 'access assigned to rol', type: RolAccessDTO })
-	@IsNotEmpty({ message: 'roles.access_invalids' })
-	access?: RolAccessDTO;
+	@ApiProperty({
+		description:
+			'these are the accesses that will be assigned to that role',
+		isArray: true,
+		type: AccessDTO,
+		example: accessListExample,
+	})
+	@IsNotEmpty({ message: 'rols.invalid_access' })
+	access?: AccessDTO[];
+
 }
 
-
-
-
-
+export class RolUpdateDTO extends IntersectionType(General, RolDTO) { }
+export class RolResponseDTO {
+	@ApiProperty({
+		description: 'This is the data that answers you',
+		type: RolUpdateDTO,
+	})
+	data: RolUpdateDTO;
+	@ApiProperty({
+		description: 'This is the server message',
+		default: 'successful petition',
+	})
+	message: string;
+}

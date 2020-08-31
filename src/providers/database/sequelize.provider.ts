@@ -6,8 +6,6 @@ import { Logger } from '../../entities/Logger.entity';
 import { Rol } from '../../entities/rol.entity';
 import { User } from '../../entities/user.entity';
 
-
-
 /**
  * data base Provider
  */
@@ -23,10 +21,10 @@ export const databaseProviders = [
 				password: _config.get('SEQUELIZE_PASSWORD'),
 				database: _config.get('SEQUELIZE_DATABASE'),
 			});
-			sequelize.addModels([User, Logger, Rol, Image, CategoryImages]);
+			sequelize.addModels([Rol, User, Logger, Image, CategoryImages]);
 			await sequelize.sync();
 			return sequelize;
 		},
-		inject: [ConfigService]
+		inject: [ConfigService],
 	},
 ];

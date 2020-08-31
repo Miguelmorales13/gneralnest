@@ -1,6 +1,6 @@
 import { User } from '../../entities/user.entity';
-import { Connection } from "mongoose";
-import { enumDatabases, modelsMongo } from "../../config/constants";
+import { Connection } from 'mongoose';
+import { enumDatabases, modelsMongo } from '../../config/constants';
 import { TestSchema } from '../../schemas/test.document';
 
 export const usersProviders = [
@@ -13,8 +13,8 @@ export const usersProviders = [
 export const tesProvidersMongo = [
 	{
 		provide: modelsMongo.Testing,
-		useFactory: (connection: Connection) => connection.model('test', TestSchema),
+		useFactory: (connection: Connection) =>
+			connection.model('test', TestSchema),
 		inject: [enumDatabases.Unique],
 	},
-
 ];
