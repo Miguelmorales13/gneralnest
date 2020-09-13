@@ -1,4 +1,4 @@
-import { User } from '../../entities/user.entity';
+import { User } from '../../entities/User.entity';
 import { Connection } from 'mongoose';
 import { enumDatabases, modelsMongo } from '../../config/constants';
 import { TestSchema } from '../../schemas/test.document';

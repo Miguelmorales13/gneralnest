@@ -1,4 +1,4 @@
-import { Rol } from '../../entities/rol.entity';
+import { Rol } from '../../entities/Rol.entity';
 
 export const rolesProviders = [
 	{

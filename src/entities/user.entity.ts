@@ -15,7 +15,7 @@ import {
 import { generatePassword } from '../config/constants';
 import { General } from './General.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { Rol } from './rol.entity';
+import { Rol } from './Rol.entity';
 import { Access } from './Access.entity';
 
 /**
@@ -57,13 +57,8 @@ export class User extends General<User> {
 	user?: string;
 
 	@Is(async function Unique(value: string) {
-		let user = await User.findOne({
-			where: { email: value.toLowerCase(), companyId: this.companyId },
-			attributes: ['id', 'companyId'],
-		});
-		// let user = await User.findOne({ where: { email: value,companyId:this.companyId }, attributes: ['id','companyId'] })
-		if (user && user.id != this.id)
-			throw new Error('validations.users.email_already_exist');
+		let user = await User.findOne({ where: { email: value.toLowerCase() }, attributes: ['id'], });
+		if (user && user.id != this.id) throw new Error('validations.users.email_already_exist');
 	})
 	@Column({
 		type: DataType.STRING(200),

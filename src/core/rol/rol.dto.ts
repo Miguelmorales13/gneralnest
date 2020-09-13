@@ -1,7 +1,6 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import {
 	IsNotEmpty,
-	IsNumber,
 	IsEnum,
 	IsString,
 	MaxLength,
@@ -10,7 +9,7 @@ import { General } from '../general.dto';
 import {
 	permissionAccessEnum,
 	permissionAccess,
-} from 'src/entities/AccessesRolUser.entity';
+} from '../../entities/AccessesRolUser.entity';
 
 let accessListExample = [
 	{ accessId: 10, permission: '0' },

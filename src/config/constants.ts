@@ -101,15 +101,22 @@ export const ACCESSES: Array<any> = [
 	{
 		id: 1,
 		name: 'names.accesses.users',
-		keyName: 'users-admins',
-		description: 'Users administration in admins company',
+		keyName: 'users',
+		description: 'Users administration',
 		moduleId: 1,
 	},
 	{
 		id: 2,
 		name: 'names.accesses.roles',
-		keyName: 'roles-admins',
-		description: 'Roles administration in admins company',
+		keyName: 'roles',
+		description: 'Roles administration',
+		moduleId: 1,
+	},
+	{
+		id: 3,
+		name: 'names.accesses.change-password',
+		keyName: 'change-password',
+		description: 'Change password',
 		moduleId: 1,
 	},
 ];

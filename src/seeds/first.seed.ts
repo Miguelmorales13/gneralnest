@@ -3,7 +3,7 @@ import { Access } from '../entities/Access.entity';
 import { Module } from '../entities/Module.entity';
 import { Rol } from '../entities/Rol.entity';
 import { User } from '../entities/User.entity';
-import { AccessRolUser } from 'src/entities/AccessesRolUser.entity';
+import { AccessRolUser } from '../entities/AccessesRolUser.entity';
 async function executeModules() {
 	let notCreated = [];
 	for (const module of MODULES) {

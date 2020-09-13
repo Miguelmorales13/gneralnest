@@ -1,10 +1,12 @@
 import { Sequelize } from 'sequelize-typescript';
+import { AccessRolUser } from '../../entities/AccessesRolUser.entity';
 import { ConfigService } from '../../config/config.service';
 import { CategoryImages } from '../../entities/CategoriesImages.entity';
 import { Image } from '../../entities/Image.entity';
-import { Logger } from '../../entities/Logger.entity';
-import { Rol } from '../../entities/rol.entity';
-import { User } from '../../entities/user.entity';
+import { Rol } from '../../entities/Rol.entity';
+import { User } from '../../entities/User.entity';
+import { Module } from '../../entities/Module.entity';
+import { Access } from '../../entities/Access.entity';
 
 /**
  * data base Provider
@@ -20,8 +22,9 @@ export const databaseProviders = [
 				username: _config.get('SEQUELIZE_USERNAME'),
 				password: _config.get('SEQUELIZE_PASSWORD'),
 				database: _config.get('SEQUELIZE_DATABASE'),
+				models: [Rol, Module, Access, AccessRolUser, Image, User, CategoryImages]
 			});
-			sequelize.addModels([Rol, User, Logger, Image, CategoryImages]);
+			// sequelize.addModels();
 			await sequelize.sync();
 			return sequelize;
 		},

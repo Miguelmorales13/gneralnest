@@ -46,19 +46,15 @@ import { User } from './User.entity';
 	paranoid: true,
 	timestamps: true,
 	underscored: true,
-	tableName: 'rols',
+	tableName: 'roles',
 })
 export class Rol extends General<Rol> {
 	/**
 	 * Name  of rol
 	 */
 	@Is(async function Unique(value: string) {
-		let rol = await Rol.findOne({
-			where: { name: value, companyId: this.companyId },
-			attributes: ['id'],
-		});
-		if (rol && rol.id != this.id)
-			throw new Error('errors.roles.name_already_exist');
+		let rol = await Rol.findOne({ where: { name: value }, attributes: ['id'], });
+		if (rol && rol.id != this.id) throw new Error('errors.roles.name_already_exist');
 	})
 	@Column({ type: DataType.STRING(100), allowNull: false })
 	name: string;

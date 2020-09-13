@@ -8,7 +8,7 @@ import {
 	Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from '../../entities/user.entity';
+import { User } from '../../entities/User.entity';
 import { UserDTO, UserUpdateDTO } from './user.dto';
 import { UserService } from './user.service';
 

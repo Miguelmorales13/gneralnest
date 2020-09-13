@@ -6,7 +6,7 @@ import {
 	DataType,
 } from 'sequelize-typescript';
 import { Access } from './Access.entity';
-import { Rol } from './rol.entity';
+import { Rol } from './Rol.entity';
 /**
  * Entity  rol
  */

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SequelizeCrudService } from '../../crud/SequelizeCrudService';
-import { Rol } from '../../entities/rol.entity';
+import { Rol } from '../../entities/Rol.entity';
 import { RolDTO } from './rol.dto';
 import { FindOptions } from 'sequelize';
 import { AccessRolUser } from '../../entities/AccessesRolUser.entity';
@@ -23,7 +23,7 @@ export class RolService extends SequelizeCrudService<Rol, RolDTO> {
 		return rol
 	}
 	async getOneUser(id: number, options?: FindOptions, lang: string = process.env.LANG_DEFAULT): Promise<any> {
-		let rol = await this.roles.scope({ method: ['accessList'] }).findByPk(id, {...options,include:[User]})
+		let rol = await this.roles.scope({ method: ['accessList'] }).findByPk(id, { ...options, include: [User] })
 		// console.log(rol, lang);
 		return rol
 	}

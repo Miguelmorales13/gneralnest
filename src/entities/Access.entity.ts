@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { General } from './General.entity';
 import { Module } from './Module.entity';
-import { Rol } from './rol.entity';
+import { Rol } from './Rol.entity';
 import { AccessRolUser } from './AccessesRolUser.entity';
 
 /**

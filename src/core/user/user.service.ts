@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import { ConfigService } from '../../config/config.service';
 import { generatePassword } from '../../config/constants';
 import { SequelizeCrudService } from '../../crud/SequelizeCrudService';
-import { User } from '../../entities/user.entity';
+import { User } from '../../entities/User.entity';
 import { EmailsService } from '../../helpers/emails/emails.service';
 import { UserDTO } from './user.dto';
 
